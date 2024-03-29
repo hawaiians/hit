@@ -22,6 +22,7 @@ const container = {
 };
 
 export const DISCORD_URL = "https://hawaiiansintech.org/discord";
+export const GITHUB_URL = "https://github.com/hawaiians/hawaiiansintech";
 
 export async function getStaticProps() {
   return {
@@ -225,11 +226,7 @@ export default function AboutPage({ pageTitle }) {
           <p>
             You can learn more about how this project was built on our
             open-source{" "}
-            <Link
-              target="_blank"
-              href="https://github.com/hawaiians/hawaiiansintech"
-              className="font-semibold"
-            >
+            <Link target="_blank" href={GITHUB_URL} className="font-semibold">
               Github
             </Link>{" "}
             repo.
