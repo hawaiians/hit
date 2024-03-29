@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import Base from "./ui/base";
 import CTABlock from "./ui/cta-block";
+import List from "./ui/list";
 
 export default function ConfirmationEmail({
   firebaseId = "id-placeholder",
@@ -36,12 +37,9 @@ export default function ConfirmationEmail({
             <Text className="text-stone-600 text-xs text-center pr-4 my-0">
               You signed up with {email}
             </Text>,
-            <Button
-              href={VERIFICATION_LINK}
-              className="border-stone-200 text-sm tracking-wide border border-solid text-stone-600 px-2 py-1 rounded text-center"
-            >
+            <CTABlock.Button href={VERIFICATION_LINK}>
               Verify Email
-            </Button>,
+            </CTABlock.Button>,
           ]}
         />
       )}
@@ -58,52 +56,55 @@ export default function ConfirmationEmail({
         (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
       </Text>
 
-      <Section className="text-sm">
-        <Row>
-          <Column className="w-12 text-4xl text-stone-500 font-semibold">
-            🖥️
-          </Column>
-          <Column>
-            <Link
-              className="text-inherit underline"
-              href="https://hawaiiansintech.org?utm_source=confirmation-email-body"
-            >
-              Connect with people who share an area of focus
-            </Link>
-            . Shooting a simple introductory DM on LinkedIn can go a long way in
-            building your professional network. Mai hilahila.
-          </Column>
-        </Row>
-        <Row className="my-2">
-          <Column className="w-12 text-4xl text-stone-500 font-semibold">
-            💬
-          </Column>
-          <Column>
-            <Link
-              className="text-inherit underline"
-              href={`${DISCORD_URL}?utm_source=confirmation-email-body`}
-            >
-              Join the discussion on our Discord server
-            </Link>
-            . Even if you&rsquo;ve never heard of it, it&rsquo;s just like
-            Slack. Our busiest channels are{" "}
-            <strong className="font-semibold">#opportunities</strong> and{" "}
-            <strong className="font-semibold">#events</strong>.
-          </Column>
-        </Row>
-        <Row>
-          <Column className="w-12 text-4xl text-stone-500 font-semibold">
-            ⌨️
-          </Column>
-          <Column>
-            <Link className="text-inherit underline" href={GITHUB_URL}>
-              Contribute to our repository on GitHub
-            </Link>
-            . We welcome all ideas and moving hands on keyboards. Participate in
-            code reviews; both to offer technical mentorship and seek it out!
-          </Column>
-        </Row>
-      </Section>
+      <List
+        nodes={[
+          {
+            icon: "🖥️",
+            label: (
+              <>
+                <Link
+                  className="text-inherit underline"
+                  href="https://hawaiiansintech.org?utm_source=confirmation-email-body"
+                >
+                  Connect with people who share an area of focus
+                </Link>
+                . Shooting a simple introductory DM on LinkedIn can go a long
+                way in building your professional network. Mai hilahila.
+              </>
+            ),
+          },
+          {
+            icon: "💬",
+            label: (
+              <>
+                <Link
+                  className="text-inherit underline"
+                  href={`${DISCORD_URL}?utm_source=confirmation-email-body`}
+                >
+                  Join the discussion on our Discord server
+                </Link>
+                . Even if you&rsquo;ve never heard of it, it&rsquo;s just like
+                Slack. Our busiest channels are{" "}
+                <strong className="font-semibold">#opportunities</strong> and{" "}
+                <strong className="font-semibold">#events</strong>.
+              </>
+            ),
+          },
+          {
+            icon: "⌨️",
+            label: (
+              <>
+                <Link className="text-inherit underline" href={GITHUB_URL}>
+                  Contribute to our repository on GitHub
+                </Link>
+                . We welcome all ideas and moving hands on keyboards.
+                Participate in code reviews; both to offer technical mentorship
+                and seek it out!
+              </>
+            ),
+          },
+        ]}
+      />
 
       <Text className="mb-0">E ola,</Text>
       <Text className="mt-0">Hawaiians in Tech</Text>

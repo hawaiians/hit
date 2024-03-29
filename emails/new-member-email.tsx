@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import CTABlock from "./ui/cta-block";
 import Base from "./ui/base";
+import List from "./ui/list";
 
 export default function NewMemberEmail({
   memberName = "Name Inoa",
@@ -30,83 +31,115 @@ export default function NewMemberEmail({
 }) {
   const FIREBASE_URL = `https://console.firebase.google.com/project/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/firestore/data/~2Fmembers~2F${firebaseId}`;
 
-  const name = memberName ?? `Name Inoa`;
-
   return (
     <Base
       preview="Our little hui grows by one (yeah, you)"
-      title={`New Member Submission from ${name}`}
+      title={`New Member Submission from ${memberName}`}
     >
       <Text className="text-xl text-center">
-        New Submission: <strong>{name}</strong>
+        Pending Submission: <strong>{memberName}</strong>
       </Text>
-
-      <CTABlock
+      <Text>
+        A new member <strong className="font-semibold">{memberName}</strong> (
+        <Link href={`mailto:${email}`} className="text-stone-500 underline">
+          {email}
+        </Link>
+        ) submitted their information.
+      </Text>
+      <List
         nodes={[
-          <Text className="text-center text-stone-600 text-xs pr-4 my-0">
-            You are receiving this because you are a community manager for their
-            region
-          </Text>,
-          <Button
-            href={FIREBASE_URL}
-            className="border-stone-200 text-sm tracking-wide border border-solid text-stone-600 px-2 py-1 rounded text-center"
-          >
-            Review {name}
-          </Button>,
+          {
+            icon: "💬",
+            label: (
+              <>
+                Check freeform field &ldquo;
+                <strong className="font-semibold">{title}</strong>
+                &rdquo; for misspelling and/or appropriateness.
+                {suggested && (
+                  <>
+                    {" "}
+                    They also suggested{" "}
+                    {suggested.map((s, i) => (
+                      <>
+                        &ldquo;<strong className="font-semibold">{s}</strong>
+                        &rdquo;
+                        {(i < suggested.length - 2 && ", ") ||
+                          (i === suggested.length - 2 && " and ")}
+                      </>
+                    ))}
+                    .
+                  </>
+                )}
+              </>
+            ),
+          },
+          {
+            icon: "🔗",
+            label: (
+              <>
+                Check that their URL works.{" "}
+                <Link href={url} className="text-stone-500 underline">
+                  {url}
+                </Link>
+              </>
+            ),
+          },
+          {
+            icon: "🌏",
+            label: (
+              <>
+                Parse &ldquo;
+                <strong className="font-semibold">{location}</strong>&rdquo; for
+                the Location and indexed/searchable Region. Always try to merge,
+                when appropriate. Seek the use of proper diacriticals, where{" "}
+                <Link
+                  href="https://wehewehe.org"
+                  className="text-stone-500 underline"
+                >
+                  wehewehe.org
+                </Link>{" "}
+                is your friend!
+              </>
+            ),
+          },
         ]}
       />
       <Text>
-        A new member <strong className="font-semibold">{name}</strong> submitted
-        their information.
+        Move their Status to
+        <span className="py-0.5 px-2 inline-block my-0 bg-emerald-200 text-emerald-700 mx-1 rounded-full text-xs font-medium tracking-wide">
+          APPROVED
+        </span>
+        when all looks well. Then, send a welcome email to let them know
+        they&rsquo;re in!
       </Text>
-      <Section className="text-sm">
-        <Row>
-          <Column className="w-12 text-4xl">🔗</Column>
-          <Column>
-            Check that their URL works.{" "}
-            <Link href={url} className="text-stone-500 underline">
-              {url}
-            </Link>
-          </Column>
-        </Row>
-        <Row className="my-2">
-          <Column className="w-12 text-4xl">💬</Column>
-          <Column>
-            Check freeform field &ldquo;
-            <strong className="font-semibold">{title}</strong>
-            &rdquo; for misspelling and/or appropriateness.{" "}
-            {suggested && (
-              <>
-                They also suggested{" "}
-                {suggested.map((s, i) => (
-                  <>
-                    &ldquo;<strong className="font-semibold">{s}</strong>&rdquo;
-                    {(i < suggested.length - 2 && ", ") ||
-                      (i === suggested.length - 2 && " and ")}
-                  </>
-                ))}
-                .
-              </>
-            )}
-          </Column>
-        </Row>
-        <Row className="m-0">
-          <Column className="w-12 text-4xl">🌏</Column>
-          <Column>
-            Parse &ldquo;
-            <strong className="font-semibold">{location}</strong>&rdquo; for the
-            Location and indexed/searchable Region. Always try to merge, when
-            appropriate. Seek the use of proper diacriticals, where{" "}
-            <Link
-              href="https://wehewehe.org"
-              className="text-stone-500 underline"
-            >
-              wehewehe.org
-            </Link>{" "}
-            is your friend!
-          </Column>
-        </Row>
-      </Section>
+      <Text>
+        Move their status to
+        <span className="py-0.5 px-2 inline-block my-0 bg-violet-200 text-violet-700 mx-1 rounded-full text-xs font-medium tracking-wide">
+          IN PROGRESS
+        </span>{" "}
+        if you have any questions or suggestions. Be concise/clear about the
+        intention of suggestions. Share progress in a leads room on{" "}
+        <Link href={DISCORD_URL} className="text-stone-500 underline">
+          Discord
+        </Link>
+        !
+      </Text>
+      <Text>
+        Move their status to
+        <span className="py-0.5 px-2 inline-block my-0 bg-red-200 text-red-700 mx-1 rounded-full text-xs font-medium tracking-wide">
+          ARCHIVED
+        </span>{" "}
+        if it was made in error or any ill intent.
+      </Text>
+      <CTABlock
+        className="mt-4"
+        nodes={[
+          <>You are receiving this because you are a community manager</>,
+          <CTABlock.Button href={FIREBASE_URL}>
+            Review {memberName}
+          </CTABlock.Button>,
+        ]}
+      />
       {firebaseId && (
         <Text className="text-xs mt-2 mb-0 italic text-stone-400 text-center">
           {firebaseId}
