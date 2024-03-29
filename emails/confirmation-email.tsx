@@ -51,9 +51,9 @@ export default function ConfirmationEmail({
         technology industry. Together we can inspire and support each other.
       </Text>
       <Text>
-        A community manager will reach out once we review your submission and
-        get you added to the directory. Beyond that, this is a pretty
-        (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
+        A community manager should be reaching out once we review your
+        submission and get you added to the directory. Beyond that, this is a
+        pretty (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
       </Text>
 
       <List
