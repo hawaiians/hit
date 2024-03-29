@@ -26,7 +26,11 @@ export async function sendConfirmationEmails({
     to: email,
     subject: "Welcome to Hawaiians in Tech",
     html: render(
-      <ConfirmationEmail memberName={name} firebaseId={firebaseId} />,
+      <ConfirmationEmail
+        email={email}
+        memberName={name}
+        firebaseId={firebaseId}
+      />,
     ),
   };
 

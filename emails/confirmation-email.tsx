@@ -22,9 +22,11 @@ const tailwindConfig = require("../tailwind.config.js");
 export default function ConfirmationEmail({
   firebaseId,
   memberName,
+  email,
 }: {
   firebaseId: string;
   memberName: string;
+  email: string;
 }) {
   const VERIFICATION_LINK = "#";
 
@@ -54,12 +56,13 @@ export default function ConfirmationEmail({
             {VERIFICATION_LINK && (
               <Section className="p-2 bg-stone-100 mb-4 rounded">
                 <Row>
-                  <Column className="w-1/2 border-r border-r-stone-200 border-solid border-l-0 border-t-0 border-b-0">
-                    <Text className="text-stone-600 text-xs text-right pr-4 my-0">
-                      You signed up with{" "}
-                      <strong>email@hawaiiansintech.org</strong>
-                    </Text>
-                  </Column>
+                  {email && (
+                    <Column className="w-1/2 border-r border-r-stone-200 border-solid border-l-0 border-t-0 border-b-0">
+                      <Text className="text-stone-600 text-xs text-right pr-4 my-0">
+                        You signed up with {email}
+                      </Text>
+                    </Column>
+                  )}
                   <Column className="text-center">
                     <Button
                       href={VERIFICATION_LINK}
@@ -72,7 +75,7 @@ export default function ConfirmationEmail({
               </Section>
             )}
 
-            <Text>Aloha kāua e {memberName ?? "kanak"},</Text>
+            <Text className="mt-5">Aloha kāua e {memberName ?? "kanak"},</Text>
             <Text>
               Mahalo nui for joining Hawaiians In Tech! We&rsquo;re excited to
               welcome you into our hui of Native Hawaiians in technical fields
@@ -151,7 +154,7 @@ export default function ConfirmationEmail({
               </Link>
             </Text>
             {firebaseId && (
-              <Text className="text-xs text-inherit inline my-0 italic text-stone-400">
+              <Text className="text-xs mt-2 mb-0 italic text-stone-400 text-center">
                 {firebaseId}
               </Text>
             )}
