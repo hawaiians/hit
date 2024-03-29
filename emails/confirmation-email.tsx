@@ -1,29 +1,20 @@
 import { DISCORD_URL, GITHUB_URL } from "@/pages/about";
 import {
-  Tailwind,
   Button,
-  Head,
   Text,
-  Html,
-  Img,
-  Preview,
-  Container,
-  Heading,
-  Body,
   Link,
-  Hr,
   Row,
   Column,
   Section,
 } from "@react-email/components";
 import * as React from "react";
-import Email from ".";
-const tailwindConfig = require("../tailwind.config.js");
+import Base from "./ui/base";
+import CTABlock from "./ui/cta-block";
 
 export default function ConfirmationEmail({
-  firebaseId,
-  memberName,
-  email,
+  firebaseId = "id-placeholder",
+  memberName = "Name Inoa",
+  email = "placeholder@hawaiiansintech.org",
 }: {
   firebaseId: string;
   memberName: string;
@@ -32,7 +23,7 @@ export default function ConfirmationEmail({
   const VERIFICATION_LINK = "#";
 
   return (
-    <Email
+    <Base
       preview="Our little hui grows by one (yeah, you)"
       title="Welcome to Hawaiians in Tech"
     >
@@ -40,28 +31,22 @@ export default function ConfirmationEmail({
         Welcome to <strong>Hawaiians in Tech</strong>
       </Text>
       {VERIFICATION_LINK && (
-        <Section className="p-2 bg-stone-100 mb-4 rounded">
-          <Row>
-            {email && (
-              <Column className="w-1/2 border-r border-r-stone-200 border-solid border-l-0 border-t-0 border-b-0">
-                <Text className="text-stone-600 text-xs text-right pr-4 my-0">
-                  You signed up with {email}
-                </Text>
-              </Column>
-            )}
-            <Column className="text-center">
-              <Button
-                href={VERIFICATION_LINK}
-                className="border-stone-200 text-sm tracking-wide border border-solid text-stone-600 px-2 py-1 rounded text-center"
-              >
-                Verify Email
-              </Button>
-            </Column>
-          </Row>
-        </Section>
+        <CTABlock
+          nodes={[
+            <Text className="text-stone-600 text-xs text-center pr-4 my-0">
+              You signed up with {email}
+            </Text>,
+            <Button
+              href={VERIFICATION_LINK}
+              className="border-stone-200 text-sm tracking-wide border border-solid text-stone-600 px-2 py-1 rounded text-center"
+            >
+              Verify Email
+            </Button>,
+          ]}
+        />
       )}
 
-      <Text className="mt-5">Aloha kāua e {memberName ?? "kanak"},</Text>
+      <Text className="mt-5">Aloha kāua e {memberName},</Text>
       <Text>
         Mahalo nui for joining Hawaiians In Tech! We&rsquo;re excited to welcome
         you into our hui of Native Hawaiians in technical fields and in the
@@ -142,6 +127,6 @@ export default function ConfirmationEmail({
           {firebaseId}
         </Text>
       )}
-    </Email>
+    </Base>
   );
 }
