@@ -6,7 +6,7 @@ import CTABlock from "./ui/cta-block";
 import List from "./ui/list";
 import { MemberFields } from "@/pages/api/create-member";
 
-export default function ConfirmationEmail({
+export default function WelcomeEmail({
   name = "[Name Inoa]",
   recordID = "[id-placeholder]",
   email = "[placeholder@hawaiiansintech.org]",

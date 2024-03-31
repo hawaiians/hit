@@ -1,5 +1,5 @@
 import SendGrid from "@sendgrid/mail";
-import ConfirmationEmail from "@/emails/confirmation-email";
+import WelcomeEmail from "@/emails/welcome-email";
 import { render } from "@react-email/components";
 import { REPLY_EMAIL } from "./email/utils";
 import PendingMemberEmail from "@/emails/pending-member-email";
@@ -38,14 +38,10 @@ export async function sendConfirmationEmails({
       to: email,
       subject: "Welcome to Hawaiians in Tech",
       html: render(
-        <ConfirmationEmail
-          email={email}
-          name={name}
-          recordID={recordID}
-          location={""}
-        />,
+        <WelcomeEmail email={email} name={name} recordID={recordID} />,
       ),
     });
+
     await SendGrid.send({
       from: {
         email: REPLY_EMAIL,
