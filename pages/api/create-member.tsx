@@ -219,7 +219,7 @@ export default async function handler(req, res) {
       link: link,
     })
       .then(() => {
-        console.log("✅ sent member email via sendgrid");
+        console.log("✅ sent 2 emails via sendgrid");
       })
       .catch((error) => {
         console.error("🚫 Error sending email:", error);
@@ -228,6 +228,9 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ message: "Successfully added member." });
   } catch (error) {
+    // TODO Add more specific error handling
+    //      - e.g. addToFirebase from firebase
+    //      -      sendConfirmationEmails from sendgrid
     return res.status(error.statusCode || 500).json({
       error: "Gonfunnit, looks like something went wrong!",
       body: "Please try again later.",

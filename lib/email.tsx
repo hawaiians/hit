@@ -23,6 +23,7 @@ export async function sendConfirmationEmails({
   link,
 }: SendConfirmationEmailProps) {
   try {
+    // TODO better error handling, thrown in `create-member`
     if (!recordID) throw new Error("No recordID provided");
     if (!email) throw new Error("No email provided");
     if (!name) throw new Error("No name provided");
@@ -62,5 +63,6 @@ export async function sendConfirmationEmails({
     });
   } catch (error) {
     console.error(`Error sending confirmation email to ${email}`, error);
+    throw error;
   }
 }
