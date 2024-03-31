@@ -19,9 +19,9 @@ export default function Base({
   title?: string;
 }) {
   return (
-    <Tailwind config={tailwindConfig}>
-      <Html>
-        {preview && <Preview>{preview}</Preview>}
+    <Html>
+      {preview && <Preview>{preview}</Preview>}
+      <Tailwind config={tailwindConfig}>
         {title && (
           <Head>
             <title>{title}</title>
@@ -43,7 +43,7 @@ export default function Base({
             {children}
           </Container>
         </Body>
-      </Html>
-    </Tailwind>
+      </Tailwind>
+    </Html>
   );
 }
