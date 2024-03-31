@@ -1,26 +1,16 @@
 import { DISCORD_URL, GITHUB_URL } from "@/pages/about";
-import {
-  Button,
-  Text,
-  Link,
-  Row,
-  Column,
-  Section,
-} from "@react-email/components";
+import { Text, Link } from "@react-email/components";
 import * as React from "react";
 import Base from "./ui/base";
 import CTABlock from "./ui/cta-block";
 import List from "./ui/list";
+import { MemberFields } from "@/pages/api/create-member";
 
 export default function ConfirmationEmail({
-  firebaseId = "id-placeholder",
-  memberName = "Name Inoa",
-  email = "placeholder@hawaiiansintech.org",
-}: {
-  firebaseId: string;
-  memberName: string;
-  email: string;
-}) {
+  name = "[Name Inoa]",
+  recordID = "[id-placeholder]",
+  email = "[placeholder@hawaiiansintech.org]",
+}: MemberFields) {
   const VERIFICATION_LINK = "#";
 
   return (
@@ -44,7 +34,7 @@ export default function ConfirmationEmail({
         />
       )}
 
-      <Text className="mt-5">Aloha kāua e {memberName},</Text>
+      <Text className="mt-5">Aloha kāua e {name},</Text>
       <Text>
         Mahalo nui for joining Hawaiians In Tech! We&rsquo;re excited to welcome
         you into our hui of Native Hawaiians in technical fields and in the
@@ -63,13 +53,19 @@ export default function ConfirmationEmail({
             label: (
               <>
                 <Link
-                  className="text-inherit underline"
+                  className="text-inherit font-bold"
                   href="https://hawaiiansintech.org?utm_source=confirmation-email-body"
                 >
                   Connect with people who share an area of focus
                 </Link>
-                . Shooting a simple introductory DM on LinkedIn can go a long
-                way in building your professional network. Mai hilahila.
+                . Try searching for others via our Home directory, then shoot an
+                introductory DM on LinkedIn or otherwise. Mai hilahila.{" "}
+                <Link
+                  className="text-inherit text-brown-500"
+                  href="https://hawaiiansintech.org?utm_source=confirmation-email-body"
+                >
+                  → Home
+                </Link>
               </>
             ),
           },
@@ -78,15 +74,27 @@ export default function ConfirmationEmail({
             label: (
               <>
                 <Link
-                  className="text-inherit underline"
+                  className="text-inherit font-bold"
                   href={`${DISCORD_URL}?utm_source=confirmation-email-body`}
                 >
                   Join the discussion on our Discord server
                 </Link>
                 . Even if you&rsquo;ve never heard of it, it&rsquo;s just like
                 Slack. Our busiest channels are{" "}
-                <strong className="font-semibold">#opportunities</strong> and{" "}
-                <strong className="font-semibold">#events</strong>.
+                <strong className="font-semibold text-stone-600">
+                  #opportunities
+                </strong>{" "}
+                and{" "}
+                <strong className="font-semibold text-stone-600">
+                  #events
+                </strong>
+                .{" "}
+                <Link
+                  className="text-inherit font-medium text-brown-500"
+                  href="https://hawaiiansintech.org/discord?utm_source=confirmation-email-body"
+                >
+                  → Discord
+                </Link>
               </>
             ),
           },
@@ -94,12 +102,18 @@ export default function ConfirmationEmail({
             icon: "⌨️",
             label: (
               <>
-                <Link className="text-inherit underline" href={GITHUB_URL}>
+                <Link className="text-inherit font-bold" href={GITHUB_URL}>
                   Contribute to our repository on GitHub
                 </Link>
-                . We welcome all ideas and moving hands on keyboards.
-                Participate in code reviews; both to offer technical mentorship
-                and seek it out!
+                . We welcome all ideas and moving hands on keyboards. Build
+                features; participate in code reviews; offer technical
+                mentorship and seek it out!{" "}
+                <Link
+                  className="text-inherit font-medium text-brown-500"
+                  href={GITHUB_URL}
+                >
+                  → Github
+                </Link>
               </>
             ),
           },
@@ -123,9 +137,9 @@ export default function ConfirmationEmail({
           Privacy Policy
         </Link>
       </Text>
-      {firebaseId && (
+      {recordID && (
         <Text className="text-xs mt-2 mb-0 italic text-stone-400 text-center">
-          {firebaseId}
+          {recordID}
         </Text>
       )}
     </Base>

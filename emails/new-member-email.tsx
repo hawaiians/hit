@@ -1,46 +1,34 @@
-import { DISCORD_URL, GITHUB_URL } from "@/pages/about";
-import {
-  Button,
-  Text,
-  Row,
-  Column,
-  Section,
-  Link,
-} from "@react-email/components";
+import { DISCORD_URL } from "@/pages/about";
+import { Text, Link } from "@react-email/components";
 import * as React from "react";
 import CTABlock from "./ui/cta-block";
 import Base from "./ui/base";
 import List from "./ui/list";
+import { MemberFields } from "@/pages/api/create-member";
 
-export default function NewMemberEmail({
-  memberName = "Name Inoa",
-  location = "SF, CA",
-  firebaseId = "id-placeholder",
-  email = "placeholder@hawaiiansintech.org",
-  title = "Software Engineer",
-  suggested = ["Focus", "Industry"],
-  url = "https://hawaiiansintech.org",
-}: {
-  memberName: string;
-  location: string;
-  title: string;
-  url: string;
-  firebaseId: string;
-  email: string;
-  suggested?: string[];
-}) {
-  const FIREBASE_URL = `https://console.firebase.google.com/project/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/firestore/data/~2Fmembers~2F${firebaseId}`;
+export default function PendingMemberEmail({
+  name = "[Name Inoa]",
+  location = "[SF, CA]",
+  recordID = "[id-placeholder]",
+  email = "[placeholder@hawaiiansintech.org]",
+  title = "[Software Engineer]",
+  focusSuggested = "[Focus]",
+  industrySuggested = "[Industry]",
+  link = "[https://hawaiiansintech.org]",
+}: MemberFields) {
+  const FIREBASE_URL = `https://console.firebase.google.com/project/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/firestore/data/~2Fmembers~2F${recordID}`;
+  const suggestions = [focusSuggested, industrySuggested].filter(Boolean); // filters out empty strings
 
   return (
     <Base
       preview="Our little hui grows by one (yeah, you)"
-      title={`New Member Submission from ${memberName}`}
+      title={`New Member Submission from ${name}`}
     >
       <Text className="text-xl text-center">
-        Pending Submission: <strong>{memberName}</strong>
+        Pending Submission: <strong>{name}</strong>
       </Text>
       <Text>
-        A new member <strong className="font-semibold">{memberName}</strong> (
+        A new member <strong className="font-semibold">{name}</strong> (
         <Link href={`mailto:${email}`} className="text-stone-500 underline">
           {email}
         </Link>
@@ -55,16 +43,16 @@ export default function NewMemberEmail({
                 Check freeform field &ldquo;
                 <strong className="font-semibold">{title}</strong>
                 &rdquo; for misspelling and/or appropriateness.
-                {suggested && (
+                {suggestions.length > 0 && (
                   <>
                     {" "}
                     They also suggested{" "}
-                    {suggested.map((s, i) => (
+                    {suggestions.map((s, i) => (
                       <>
                         &ldquo;<strong className="font-semibold">{s}</strong>
                         &rdquo;
-                        {(i < suggested.length - 2 && ", ") ||
-                          (i === suggested.length - 2 && " and ")}
+                        {(i < suggestions.length - 2 && ", ") ||
+                          (i === suggestions.length - 2 && " and ")}
                       </>
                     ))}
                     .
@@ -78,8 +66,8 @@ export default function NewMemberEmail({
             label: (
               <>
                 Check that their URL works.{" "}
-                <Link href={url} className="text-stone-500 underline">
-                  {url}
+                <Link href={link} className="text-stone-500 underline">
+                  {link}
                 </Link>
               </>
             ),
@@ -135,14 +123,12 @@ export default function NewMemberEmail({
         className="mt-4"
         nodes={[
           <>You are receiving this because you are a community manager</>,
-          <CTABlock.Button href={FIREBASE_URL}>
-            Review {memberName}
-          </CTABlock.Button>,
+          <CTABlock.Button href={FIREBASE_URL}>Review {name}</CTABlock.Button>,
         ]}
       />
-      {firebaseId && (
+      {recordID && (
         <Text className="text-xs mt-2 mb-0 italic text-stone-400 text-center">
-          {firebaseId}
+          {recordID}
         </Text>
       )}
       {/* //   const firebaseUrl = `https://console.firebase.google.com/project/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/firestore/data/~2Fmembers~2F${firebaseId}`;
