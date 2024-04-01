@@ -55,12 +55,12 @@ export default function PendingMemberEmail({
                     {" "}
                     They also suggested{" "}
                     {suggestions.map((s, i) => (
-                      <>
+                      <span key={`suggestion-${i}`}>
                         &ldquo;<strong className="font-semibold">{s}</strong>
                         &rdquo;
                         {(i < suggestions.length - 2 && ", ") ||
                           (i === suggestions.length - 2 && " and ")}
-                      </>
+                      </span>
                     ))}
                     .
                   </>
