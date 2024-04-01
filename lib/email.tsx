@@ -9,9 +9,9 @@ export interface SendConfirmationEmailProps {
   email: string;
   name: string;
   location: string;
-  title: string;
   link: string;
   recordID: string;
+  title?: string; // title is only non-required freeform field on sign up
 }
 
 export async function sendConfirmationEmails({
@@ -19,8 +19,8 @@ export async function sendConfirmationEmails({
   recordID,
   name,
   location,
-  title,
   link,
+  title,
 }: SendConfirmationEmailProps) {
   try {
     // TODO better error handling, thrown in `create-member`
@@ -28,7 +28,6 @@ export async function sendConfirmationEmails({
     if (!email) throw new Error("No email provided");
     if (!name) throw new Error("No name provided");
     if (!location) throw new Error("No location provided");
-    if (!title) throw new Error("No title provided");
     if (!link) throw new Error("No link provided");
 
     await SendGrid.send({

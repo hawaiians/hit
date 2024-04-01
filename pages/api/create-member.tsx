@@ -194,7 +194,7 @@ export default async function handler(req, res) {
     const { email, name, location, title, link } = req.body;
 
     const isEmailUsed = await emailExists(email);
-    if (!isEmailUsed) {
+    if (isEmailUsed) {
       console.log("🚫 email already exists");
       return res.status(409).json({
         error: "409",
