@@ -40,9 +40,16 @@ export default function PendingMemberEmail({
             icon: "💬",
             label: (
               <>
-                Check freeform field &ldquo;
-                <strong className="font-semibold">{title}</strong>
-                &rdquo; for misspelling and/or appropriateness.
+                Check freeform fields
+                {title && (
+                  <>
+                    {" "}
+                    (e.g. &ldquo;
+                    <strong className="font-semibold">{title}</strong>
+                    &rdquo;)
+                  </>
+                )}{" "}
+                for misspelling and/or appropriateness.
                 {suggestions.length > 0 && (
                   <>
                     {" "}

@@ -19,7 +19,7 @@ export default function WelcomeEmail({
       title="Welcome to Hawaiians in Tech"
     >
       <Text className="text-xl text-center">
-        Welcome to <strong>Hawaiians in Tech</strong>
+        Mahalo for signing up with <strong>Hawaiians in Tech</strong>
       </Text>
       {VERIFICATION_LINK && (
         <CTABlock
@@ -103,7 +103,7 @@ export default function WelcomeEmail({
             label: (
               <>
                 <Link className="text-inherit font-bold" href={GITHUB_URL}>
-                  Contribute to our repository on GitHub
+                  Contribute to our projects on GitHub
                 </Link>
                 . We welcome all ideas and moving hands on keyboards. Build
                 features; participate in code reviews; offer technical
