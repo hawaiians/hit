@@ -3,8 +3,10 @@ import Logo from "@/components/Logo";
 import MetaTags from "@/components/Metatags";
 import Plausible from "@/components/Plausible";
 import { Subtitle } from "@/components/Title";
+import { Computer, MessageCircleHeart, Network } from "lucide-react";
 import Head from "next/head";
 import Link from "next/link";
+import { DISCORD_URL } from "../about";
 
 export async function getStaticProps() {
   return {
@@ -39,16 +41,50 @@ export default function ThankYou({ pageTitle }) {
             />
           </div>
 
-          <h2 className="text-base">
-            <strong>Expect one of us to reach out about your submission</strong>{" "}
-            as soon as we can get to it. We review all changes manually for...
-            quality assurance. 😆
-          </h2>
-          <h2 className="text-base">
-            You should have <em>just</em> received a confirmation email from us.
-            If you didn't, you may need to add{" "}
+          <p>
+            <strong>
+              A community manager should be reaching out once we review your
+              submission
+            </strong>{" "}
+            and get you added to the directory. Beyond that, this is a pretty
+            (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
+          </p>
+
+          <p>
+            You should have received a confirmation email from us. If you
+            didn't, you may need to add{" "}
             <Code>no-reply@hawaiiansintech.org</Code> to your address book.
-          </h2>
+          </p>
+
+          <div className="flex justify-evenly gap-2">
+            <Link
+              href="https://hawaiiansintech.org"
+              className="flex flex-col gap-2"
+            >
+              <Computer />
+              <h3 className="text-foreground font-semibold">
+                Connect with people who share an area of focus.
+              </h3>
+              <span>→ Home</span>
+            </Link>
+            <Link
+              href="https://hawaiiansintech.org/discord"
+              className="flex flex-col gap-2"
+            >
+              <MessageCircleHeart />
+              <h3 className="text-foreground font-semibold">
+                Join the discussion on our Discord server.
+              </h3>
+              <span>→ Discord</span>
+            </Link>
+            <Link href={`${DISCORD_URL}`} className="flex flex-col gap-2">
+              <Computer />
+              <h3 className="text-foreground font-semibold">
+                Contribute to our projects on GitHub.
+              </h3>
+              <span>→ Github</span>
+            </Link>
+          </div>
         </main>
       </div>
     </>
