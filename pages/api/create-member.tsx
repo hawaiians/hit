@@ -110,7 +110,7 @@ export interface MemberFields {
   name: string;
   email: string;
   location?: string;
-  website?: string;
+  website?: string; // TODO: Remove "website" input param and replace with "link"
   link?: string;
   focusesSelected?: string | string[];
   focusSuggested?: string;
@@ -191,7 +191,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Only POST requests allowed" });
   }
   try {
-    const { email, name, location, title, link } = req.body;
+    const {
+      email,
+      name,
+      location,
+      title,
+      website, // TODO: Remove "website" input param and replace with "link"
+    } = req.body;
+    console.log(req.body);
 
     const isEmailUsed = await emailExists(email);
     if (isEmailUsed) {
@@ -216,7 +223,7 @@ export default async function handler(req, res) {
       name: name,
       location: location,
       title: title,
-      link: link,
+      link: website, // TODO: Remove "website" input param and replace with "link"
     })
       .then(() => {
         console.log("✅ sent 2 emails via sendgrid");
