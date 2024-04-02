@@ -114,7 +114,14 @@ export default function JoinStep4({ pageTitle }) {
     const resJSON = await res.json();
     if (res.ok) {
       clearAllStoredFields("jf");
-      router.push({ pathname: "thank-you" });
+      router.push({
+        pathname: "thank-you",
+        query: {
+          // Passes the selected values to the thank-you page
+          focusesSelected: focusesSelected,
+          industriesSelected: industriesSelected,
+        },
+      });
     } else if (res.status === 422) {
       setLoading(false);
       setError({

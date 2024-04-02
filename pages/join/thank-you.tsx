@@ -3,20 +3,73 @@ import Logo from "@/components/Logo";
 import MetaTags from "@/components/Metatags";
 import Plausible from "@/components/Plausible";
 import { Subtitle } from "@/components/Title";
-import { Computer, MessageCircleHeart, Network } from "lucide-react";
+import { Computer, MessageCircleHeart } from "lucide-react";
 import Head from "next/head";
 import Link from "next/link";
 import { DISCORD_URL } from "../about";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { Filter, getFilters } from "@/lib/api";
+import { FirebaseTablesEnum } from "@/lib/enums";
+import { getMembers } from "../api/get-members";
 
 export async function getStaticProps() {
+  const { members, focuses, industries } = await getMembers();
   return {
     props: {
       pageTitle: "Thank You · Hawaiians in Technology",
+      members: members,
+      focuses: await getFilters(
+        FirebaseTablesEnum.FOCUSES,
+        true,
+        members.map((member) => member.id),
+        focuses,
+      ),
+      industries: await getFilters(
+        FirebaseTablesEnum.INDUSTRIES,
+        true,
+        members.map((member) => member.id),
+        industries,
+      ),
     },
   };
 }
 
-export default function ThankYou({ pageTitle }) {
+export default function ThankYou({ pageTitle, focuses, industries, members }) {
+  const router = useRouter();
+  const { focusesSelected, industriesSelected } = router.query;
+  const [similarFocuses, setSimilarFocuses] = useState<Filter[]>([]);
+  const [similarIndustries, setSimilarIndustries] = useState<Filter[]>([]);
+
+  const getActiveFilters = (filters: Filter[], activeIds: string[]) => {
+    return filters.filter((filter) => activeIds.includes(filter.id));
+  };
+
+  useEffect(() => {
+    const updateSimilar = ({ selectedItems, allItems, setter }) => {
+      if (selectedItems) {
+        const queryAsArray = Array.isArray(selectedItems)
+          ? selectedItems
+          : [selectedItems];
+        setter(() => getActiveFilters(allItems, queryAsArray));
+      }
+    };
+
+    if (focusesSelected === undefined && industriesSelected === undefined)
+      return;
+
+    updateSimilar({
+      selectedItems: focusesSelected,
+      allItems: focuses,
+      setter: setSimilarFocuses,
+    });
+    updateSimilar({
+      selectedItems: industriesSelected,
+      allItems: industries,
+      setter: setSimilarIndustries,
+    });
+  }, [focuses, industries]);
+
   return (
     <>
       <Head>
@@ -55,36 +108,50 @@ export default function ThankYou({ pageTitle }) {
             didn't, you may need to add{" "}
             <Code>no-reply@hawaiiansintech.org</Code> to your address book.
           </p>
-
-          <div className="flex justify-evenly gap-2">
-            <Link
-              href="https://hawaiiansintech.org"
-              className="flex flex-col gap-2"
-            >
-              <Computer />
-              <h3 className="text-foreground font-semibold">
-                Connect with people who share an area of focus.
-              </h3>
-              <span>→ Home</span>
-            </Link>
-            <Link
-              href="https://hawaiiansintech.org/discord"
-              className="flex flex-col gap-2"
-            >
-              <MessageCircleHeart />
-              <h3 className="text-foreground font-semibold">
-                Join the discussion on our Discord server.
-              </h3>
-              <span>→ Discord</span>
-            </Link>
-            <Link href={`${DISCORD_URL}`} className="flex flex-col gap-2">
-              <Computer />
-              <h3 className="text-foreground font-semibold">
-                Contribute to our projects on GitHub.
-              </h3>
-              <span>→ Github</span>
-            </Link>
-          </div>
+          <section className="flex">
+            <div className="grow">
+              <Link
+                href="https://hawaiiansintech.org"
+                className="flex flex-col gap-2"
+              >
+                <Computer />
+                <h3 className="text-foreground font-semibold">
+                  Connect with people who share an area of focus.
+                </h3>
+                {similarFocuses?.map((foc) => (
+                  <p>
+                    {foc.count}
+                    {foc.name}
+                  </p>
+                ))}
+                {similarIndustries?.map((ind) => (
+                  <p>
+                    {ind.count}
+                    {ind.name}
+                  </p>
+                ))}
+              </Link>
+            </div>
+            <div className="flex justify-evenly gap-4 flex-col w-1/3">
+              <Link
+                href="https://hawaiiansintech.org/discord"
+                className="flex flex-col gap-2"
+              >
+                <MessageCircleHeart />
+                <h3 className="text-foreground font-semibold">
+                  Join the discussion on our Discord server.
+                </h3>
+                <span>→ Discord</span>
+              </Link>
+              <Link href={`${DISCORD_URL}`} className="flex flex-col gap-2">
+                <Computer />
+                <h3 className="text-foreground font-semibold">
+                  Contribute to our projects on GitHub.
+                </h3>
+                <span>→ Github</span>
+              </Link>
+            </div>
+          </section>
         </main>
       </div>
     </>
