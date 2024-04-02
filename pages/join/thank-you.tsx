@@ -93,7 +93,6 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
               className="w-20"
             />
           </div>
-
           <p>
             <strong>
               A community manager should be reaching out once we review your
@@ -102,17 +101,11 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
             and get you added to the directory. Beyond that, this is a pretty
             (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
           </p>
-
-          <p>
-            You should have received a confirmation email from us. If you
-            didn't, you may need to add{" "}
-            <Code>no-reply@hawaiiansintech.org</Code> to your address book.
-          </p>
-          <section className="flex">
+          <section className="flex gap-4">
             <div className="grow">
               <Link
                 href="https://hawaiiansintech.org"
-                className="flex flex-col gap-2"
+                className="flex flex-col gap-2 bg-brown-600/10 p-3 rounded-xl"
               >
                 <Computer />
                 <h3 className="text-foreground font-semibold">
@@ -135,7 +128,7 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
             <div className="flex justify-evenly gap-4 flex-col w-1/3">
               <Link
                 href="https://hawaiiansintech.org/discord"
-                className="flex flex-col gap-2"
+                className="flex flex-col gap-2 bg-brown-600/10 p-3 rounded-xl"
               >
                 <MessageCircleHeart />
                 <h3 className="text-foreground font-semibold">
@@ -143,7 +136,10 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
                 </h3>
                 <span>→ Discord</span>
               </Link>
-              <Link href={`${DISCORD_URL}`} className="flex flex-col gap-2">
+              <Link
+                href={`${DISCORD_URL}`}
+                className="flex flex-col gap-2 bg-brown-600/10 p-3 rounded-xl"
+              >
                 <Computer />
                 <h3 className="text-foreground font-semibold">
                   Contribute to our projects on GitHub.
@@ -152,6 +148,11 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
               </Link>
             </div>
           </section>
+          <p className="text-secondary-foreground text-sm tracking-wide">
+            You should have received a confirmation email from us. If you
+            didn't, you may need to add{" "}
+            <Code>no-reply@hawaiiansintech.org</Code> to your address book.
+          </p>
         </main>
       </div>
     </>
