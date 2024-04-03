@@ -26,8 +26,6 @@ import { buttonVariants } from "@/components/ui/button";
 export async function getStaticProps() {
   const { members, focuses, industries } = await getMembers();
 
-  console.log(members);
-
   return {
     props: {
       pageTitle: "Thank You · Hawaiians in Technology",
@@ -113,13 +111,19 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
             and get you added to the directory. Beyond that, this is a pretty
             (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
           </p>
-          <section className="flex w-full justify-stretch gap-4">
+          <section
+            className={cn(
+              "flex w-full flex-col gap-4 sm:flex-row",
+              similarFocuses.length + similarIndustries.length <= 0 &&
+                "flex-col sm:flex-col",
+            )}
+          >
             <div className="grow">
-              <div className="flex h-full flex-col justify-between rounded-xl bg-brown-600/10 pb-4 pt-4">
+              <div className="flex flex-col justify-between rounded-xl bg-brown-600/10 pb-4 pt-4">
                 <div className="mb-2 space-y-2 px-4">
                   <Computer style={{ color: theme.color.link.base }} />
                   <h3 className="font-semibold text-foreground">
-                    Connect with your kanaka peers in common.
+                    Connect with your kanaka peers with interests in common.
                   </h3>
                 </div>
 
@@ -159,7 +163,10 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
                                   .map((member) => (
                                     <Link
                                       href={member.link}
-                                      className="flex items-center p-1 text-xs text-foreground"
+                                      className={cn(
+                                        "flex items-center p-1 text-xs text-foreground",
+                                        "plausible-event-name=Thank+You+Page+Click",
+                                      )}
                                       target="_blank"
                                     >
                                       <div className="grow">
@@ -214,9 +221,10 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
                 )}
                 <div className="mt-2 px-4">
                   <Link
-                    href="/?utm_source=thank-you"
+                    href="/"
                     target="_blank"
                     className={cn(
+                      "plausible-event-name=Thank+You+Page+Click",
                       buttonVariants({ variant: "secondaryBrand" }),
                       "w-full justify-start",
                     )}
@@ -226,7 +234,7 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
                 </div>
               </div>
             </div>
-            <div className="flex w-1/3 shrink-0 flex-col justify-start gap-4">
+            <div className="flex shrink-0 basis-1/3 flex-col justify-start gap-4">
               {[
                 {
                   icon: <MessageCircleHeart />,
@@ -244,15 +252,16 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
                 const { icon, title, link, linkLabel } = item;
                 return (
                   <div
-                    className="flex flex-col gap-2 rounded-xl bg-brown-600/10 p-2 text-primary sm:p-4"
+                    className="flex flex-col gap-2 rounded-xl bg-brown-600/10 p-4 text-primary"
                     key={`link-${index}`}
                   >
                     {icon}
                     <h3 className="font-semibold text-foreground">{title}</h3>
                     <Link
-                      href={`${link}?utm_source=thank-you`}
+                      href={link}
                       target="_blank"
                       className={cn(
+                        "plausible-event-name=Thank+You+Page+Click",
                         buttonVariants({ variant: "secondaryBrand" }),
                         "w-full justify-start",
                       )}
@@ -268,6 +277,16 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
             You should have received a confirmation email from us. If you
             didn't, you may need to add{" "}
             <Code>no-reply@hawaiiansintech.org</Code> to your address book.
+          </p>
+          <p className="text-sm tracking-wide text-secondary-foreground">
+            If you are having any issues, please contact us on{" "}
+            <Link
+              href={DISCORD_URL}
+              className="plausible-event-name=Thank+You+Page+Click text-inherit underline"
+            >
+              our Discord server
+            </Link>
+            .
           </p>
         </main>
       </div>
