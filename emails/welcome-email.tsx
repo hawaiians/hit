@@ -17,16 +17,18 @@ export default function WelcomeEmail({
     <Base
       preview="Our little hui grows by one (yeah, you)"
       title="Welcome to Hawaiians in Tech"
+      align="left"
     >
-      <Text className="text-5xl px-4">
-        Welcome to
-        <br />
-        <strong>Hawaiians in Tech</strong>
+      <Text className="px-4">
+        <span className="text-2xl block leading-loose font-medium">
+          {name}, welcome to
+        </span>
+        <strong className="font-semibold text-5xl">Hawaiians in Tech</strong>
       </Text>
       {VERIFICATION_LINK && (
         <CTABlock
           nodes={[
-            <Text className="text-stone-600 text-xs text-center pr-4 my-0">
+            <Text className="text-stone-500 text-xs text-center pr-4 my-0">
               You signed up with {email}
             </Text>,
             <CTABlock.Button href={VERIFICATION_LINK}>
@@ -83,11 +85,11 @@ export default function WelcomeEmail({
                 </Link>
                 . Even if you&rsquo;ve never heard of it, it&rsquo;s just like
                 Slack. Our busiest channels are{" "}
-                <strong className="font-semibold text-stone-600">
+                <strong className="font-semibold text-stone-500">
                   #opportunities
                 </strong>{" "}
                 and{" "}
-                <strong className="font-semibold text-stone-600">
+                <strong className="font-semibold text-stone-500">
                   #events
                 </strong>
                 .{" "}

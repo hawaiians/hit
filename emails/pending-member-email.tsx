@@ -21,7 +21,7 @@ export default function PendingMemberEmail({
 
   return (
     <Base
-      preview="Our little hui grows by one (yeah, you)"
+      preview={`New Member Submission from ${name}`}
       title={`New Member Submission from ${name}`}
     >
       <Text className="text-3xl px-4 text-center">
