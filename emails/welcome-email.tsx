@@ -20,15 +20,15 @@ export default function WelcomeEmail({
       align="left"
     >
       <Text className="px-4">
-        <span className="text-2xl block leading-loose font-medium">
+        <span className="block text-2xl font-medium leading-loose">
           {name}, welcome to
         </span>
-        <strong className="font-semibold text-5xl">Hawaiians in Tech</strong>
+        <strong className="text-5xl font-semibold">Hawaiians in Tech</strong>
       </Text>
       {VERIFICATION_LINK && (
         <CTABlock
           nodes={[
-            <Text className="text-stone-500 text-xs text-center pr-4 my-0">
+            <Text className="my-0 pr-4 text-center text-xs text-stone-500">
               You signed up with {email}
             </Text>,
             <CTABlock.Button href={VERIFICATION_LINK}>
@@ -57,7 +57,7 @@ export default function WelcomeEmail({
             label: (
               <>
                 <Link
-                  className="text-inherit font-bold"
+                  className="font-bold text-inherit"
                   href="https://hawaiiansintech.org?utm_source=confirmation-email-body"
                 >
                   Connect with people who share an area of focus
@@ -65,7 +65,7 @@ export default function WelcomeEmail({
                 . Try searching for others via our Home directory, then shoot an
                 introductory DM on LinkedIn or otherwise. Mai hilahila.{" "}
                 <Link
-                  className="text-inherit text-brown-500"
+                  className="text-brown-500 text-inherit"
                   href="https://hawaiiansintech.org?utm_source=confirmation-email-body"
                 >
                   → Home
@@ -78,7 +78,7 @@ export default function WelcomeEmail({
             label: (
               <>
                 <Link
-                  className="text-inherit font-bold"
+                  className="font-bold text-inherit"
                   href={`${DISCORD_URL}?utm_source=confirmation-email-body`}
                 >
                   Join the discussion on our Discord server
@@ -94,7 +94,7 @@ export default function WelcomeEmail({
                 </strong>
                 .{" "}
                 <Link
-                  className="text-inherit font-medium text-brown-500"
+                  className="font-medium text-brown-500 text-inherit"
                   href="https://hawaiiansintech.org/discord?utm_source=confirmation-email-body"
                 >
                   → Discord
@@ -106,14 +106,14 @@ export default function WelcomeEmail({
             icon: "⌨️",
             label: (
               <>
-                <Link className="text-inherit font-bold" href={GITHUB_URL}>
+                <Link className="font-bold text-inherit" href={GITHUB_URL}>
                   Contribute to our projects on GitHub
                 </Link>
                 . We welcome all ideas and moving hands on keyboards. Build
                 features; participate in code reviews; offer technical
                 mentorship and seek it out!{" "}
                 <Link
-                  className="text-inherit font-medium text-brown-500"
+                  className="font-medium text-brown-500 text-inherit"
                   href={GITHUB_URL}
                 >
                   → Github
@@ -126,7 +126,7 @@ export default function WelcomeEmail({
 
       <Text className="mb-0">E ola,</Text>
       <Text className="mt-0">The Hawaiians in Tech team</Text>
-      <Text className="text-stone-500 my-0 text-center">
+      <Text className="my-0 text-center text-stone-500">
         <Link
           href="https://hawaiiansintech.org/about?utm_source=confirmation-email-footer"
           className="text-xs text-inherit"
@@ -142,7 +142,7 @@ export default function WelcomeEmail({
         </Link>
       </Text>
       {recordID && (
-        <Text className="text-xs mt-2 mb-0 italic text-stone-300 text-center">
+        <Text className="mb-0 mt-2 text-center text-xs italic text-stone-300">
           {recordID}
         </Text>
       )}
