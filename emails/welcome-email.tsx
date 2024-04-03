@@ -18,8 +18,10 @@ export default function WelcomeEmail({
       preview="Our little hui grows by one (yeah, you)"
       title="Welcome to Hawaiians in Tech"
     >
-      <Text className="text-xl text-center">
-        Mahalo for signing up with <strong>Hawaiians in Tech</strong>
+      <Text className="text-5xl px-4">
+        Welcome to
+        <br />
+        <strong>Hawaiians in Tech</strong>
       </Text>
       {VERIFICATION_LINK && (
         <CTABlock
@@ -121,7 +123,7 @@ export default function WelcomeEmail({
       />
 
       <Text className="mb-0">E ola,</Text>
-      <Text className="mt-0">Hawaiians in Tech</Text>
+      <Text className="mt-0">The Hawaiians in Tech team</Text>
       <Text className="text-stone-500 my-0 text-center">
         <Link
           href="https://hawaiiansintech.org/about?utm_source=confirmation-email-footer"
@@ -138,7 +140,7 @@ export default function WelcomeEmail({
         </Link>
       </Text>
       {recordID && (
-        <Text className="text-xs mt-2 mb-0 italic text-stone-400 text-center">
+        <Text className="text-xs mt-2 mb-0 italic text-stone-300 text-center">
           {recordID}
         </Text>
       )}

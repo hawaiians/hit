@@ -34,11 +34,11 @@ export default function Base({
               '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
           }}
         >
-          <Container className="bg-white p-4 rounded-xl border border-solid border-stone-200 m-4 mx-auto max-w-[540px]">
+          <Container className="bg-white p-4 pt-8 rounded-xl border border-solid border-stone-200 m-4 mx-auto max-w-[540px]">
             <Img
               src="http://cdn.mcauto-images-production.sendgrid.net/c3cb94bafc1ef987/5ff60b90-4257-4ae9-babb-697d189b2df0/240x231.png"
               alt="Hawaiians in Tech"
-              className="w-16 mb-2 mx-auto"
+              className="w-16 mb-8 mx-auto"
             />
             {children}
           </Container>

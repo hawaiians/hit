@@ -12,8 +12,8 @@ export default function PendingMemberEmail({
   recordID = "[id-placeholder]",
   email = "[placeholder@hawaiiansintech.org]",
   title = "[Software Engineer]",
-  focusSuggested = "[Focus]",
-  industrySuggested = "[Industry]",
+  focusSuggested,
+  industrySuggested,
   link = "[https://hawaiiansintech.org]",
 }: MemberFields) {
   const FIREBASE_URL = `https://console.firebase.google.com/project/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/firestore/data/~2Fmembers~2F${recordID}`;
@@ -24,8 +24,10 @@ export default function PendingMemberEmail({
       preview="Our little hui grows by one (yeah, you)"
       title={`New Member Submission from ${name}`}
     >
-      <Text className="text-xl text-center">
-        Pending Submission: <strong>{name}</strong>
+      <Text className="text-3xl px-4 text-center">
+        Pending Submission
+        <br />
+        <strong>{name}</strong>
       </Text>
       <Text>
         A new member <strong className="font-semibold">{name}</strong> (
@@ -43,10 +45,9 @@ export default function PendingMemberEmail({
                 Check freeform fields
                 {title && (
                   <>
-                    {" "}
-                    (e.g. &ldquo;
+                    , including their title &ldquo;
                     <strong className="font-semibold">{title}</strong>
-                    &rdquo;)
+                    &rdquo;,
                   </>
                 )}{" "}
                 for misspelling and/or appropriateness.
@@ -73,7 +74,10 @@ export default function PendingMemberEmail({
             label: (
               <>
                 Check that their URL works.{" "}
-                <Link href={link} className="text-stone-500 underline">
+                <Link
+                  href={link}
+                  className="font-semibold text-inherit underline"
+                >
                   {link}
                 </Link>
               </>
@@ -134,7 +138,7 @@ export default function PendingMemberEmail({
         ]}
       />
       {recordID && (
-        <Text className="text-xs mt-2 mb-0 italic text-stone-400 text-center">
+        <Text className="text-xs mt-2 mb-0 italic text-stone-300 text-center">
           {recordID}
         </Text>
       )}
