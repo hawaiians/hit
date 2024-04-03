@@ -12,23 +12,35 @@ import { useRouter } from "next/router";
 import { Filter, getFilters } from "@/lib/api";
 import { FirebaseTablesEnum } from "@/lib/enums";
 import { getMembers } from "../api/get-members";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
+import theme from "@/styles/theme";
+import { Badge } from "@/components/ui/badge";
 
 export async function getStaticProps() {
   const { members, focuses, industries } = await getMembers();
+
+  console.log(members);
+
   return {
     props: {
       pageTitle: "Thank You · Hawaiians in Technology",
       members: members,
       focuses: await getFilters(
         FirebaseTablesEnum.FOCUSES,
-        true,
-        members.map((member) => member.id),
+        false,
+        undefined,
         focuses,
       ),
       industries: await getFilters(
         FirebaseTablesEnum.INDUSTRIES,
-        true,
-        members.map((member) => member.id),
+        false,
+        undefined,
         industries,
       ),
     },
@@ -47,17 +59,12 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
 
   useEffect(() => {
     const updateSimilar = ({ selectedItems, allItems, setter }) => {
-      if (selectedItems) {
-        const queryAsArray = Array.isArray(selectedItems)
-          ? selectedItems
-          : [selectedItems];
-        setter(() => getActiveFilters(allItems, queryAsArray));
-      }
+      if (!selectedItems) return;
+      const queryAsArray = Array.isArray(selectedItems)
+        ? selectedItems
+        : [selectedItems];
+      setter(() => getActiveFilters(allItems, queryAsArray));
     };
-
-    if (focusesSelected === undefined && industriesSelected === undefined)
-      return;
-
     updateSimilar({
       selectedItems: focusesSelected,
       allItems: focuses,
@@ -68,7 +75,7 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
       allItems: industries,
       setter: setSimilarIndustries,
     });
-  }, [focuses, industries]);
+  }, [focuses, industries, focusesSelected, industriesSelected]);
 
   return (
     <>
@@ -101,54 +108,81 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
             and get you added to the directory. Beyond that, this is a pretty
             (intentionally) simple operation. 🤙🏼🤙🏽🤙🏾
           </p>
-          <section className="flex gap-4">
-            <div className="grow">
-              <Link
-                href="https://hawaiiansintech.org"
-                className="flex flex-col gap-2 bg-brown-600/10 p-3 rounded-xl"
-              >
-                <Computer />
-                <h3 className="text-foreground font-semibold">
-                  Connect with people who share an area of focus.
-                </h3>
-                {similarFocuses?.map((foc) => (
-                  <p>
-                    {foc.count}
-                    {foc.name}
-                  </p>
-                ))}
-                {similarIndustries?.map((ind) => (
-                  <p>
-                    {ind.count}
-                    {ind.name}
-                  </p>
-                ))}
-              </Link>
+          <section className="grid grid-cols-2 gap-4">
+            <div>
+              <div className="flex flex-col rounded-xl bg-brown-600/10 pb-2 pt-4">
+                <div className="space-y-2 px-4">
+                  <Computer style={{ color: theme.color.link.base }} />
+                  <h3 className="font-semibold text-foreground">
+                    Connect with your kanaka peers in common.
+                  </h3>
+                </div>
+                {(similarFocuses.length > 0 ||
+                  similarIndustries.length > 0) && (
+                  <Accordion type="single" collapsible>
+                    {[similarFocuses, similarIndustries].map((items, i) => {
+                      if (items.length === 0) return null;
+                      return (
+                        <div key={`${items[0].filterType}-${i}`}>
+                          {items.length > 0 && (
+                            <h6 className="mb-1 mt-2 px-4 text-xs font-semibold uppercase tracking-wide text-brown-600">
+                              {items[0].filterType}
+                            </h6>
+                          )}
+                          {items.map((item, itemIndex) => (
+                            <AccordionItem
+                              key={`filter-${itemIndex}-${item.name}`}
+                              value={`filter-${itemIndex}-${item.name}`}
+                              className={cn(
+                                items.length === itemIndex + 1 && "border-none",
+                              )}
+                            >
+                              <AccordionTrigger className="border-0 px-4 hover:bg-brown-600/10">
+                                <div className="flex items-center">
+                                  <div className="flex min-w-12">
+                                    <Badge variant="ghost">{item.count}</Badge>
+                                  </div>
+                                  <h3 className="line-clamp-1 text-left">
+                                    {item.name}
+                                  </h3>
+                                </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="px-4">
+                                Placeholder
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </Accordion>
+                )}
+              </div>
             </div>
-            <div className="flex justify-evenly gap-4 flex-col w-1/3">
+            <div className="grid grid-rows-2 gap-4">
               <Link
                 href="https://hawaiiansintech.org/discord"
-                className="flex flex-col gap-2 bg-brown-600/10 p-3 rounded-xl"
+                className="flex flex-col gap-2 rounded-xl bg-brown-600/10 p-2 sm:p-4"
               >
                 <MessageCircleHeart />
-                <h3 className="text-foreground font-semibold">
+                <h3 className="font-semibold text-foreground">
                   Join the discussion on our Discord server.
                 </h3>
                 <span>→ Discord</span>
               </Link>
               <Link
                 href={`${DISCORD_URL}`}
-                className="flex flex-col gap-2 bg-brown-600/10 p-3 rounded-xl"
+                className="flex flex-col gap-2 rounded-xl bg-brown-600/10 p-2 sm:p-4"
               >
                 <Computer />
-                <h3 className="text-foreground font-semibold">
+                <h3 className="font-semibold text-foreground">
                   Contribute to our projects on GitHub.
                 </h3>
                 <span>→ Github</span>
               </Link>
             </div>
           </section>
-          <p className="text-secondary-foreground text-sm tracking-wide">
+          <p className="text-sm tracking-wide text-secondary-foreground">
             You should have received a confirmation email from us. If you
             didn't, you may need to add{" "}
             <Code>no-reply@hawaiiansintech.org</Code> to your address book.

@@ -7,7 +7,7 @@ const badgeVariants = cva(
   items-center
   rounded-full
   border
-  px-2.5
+  px-2
   py-0.5
   text-xs
   font-semibold
@@ -26,6 +26,8 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive/10 text-destructive-foreground",
         outline: "text-secondary-foreground",
+        ghost:
+          "border-transparent bg-primary/10 text-primary/80 hover:bg-primary/25",
       },
     },
     defaultVariants: {
