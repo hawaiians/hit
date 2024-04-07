@@ -1,7 +1,7 @@
 import SendGrid from "@sendgrid/mail";
 import WelcomeEmail from "@/emails/welcome-email";
 import { render } from "@react-email/components";
-import { REPLY_EMAIL } from "./email/utils";
+import { ADMIN_EMAILS, REPLY_EMAIL } from "./email/utils";
 import PendingMemberEmail from "@/emails/pending-member-email";
 SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -47,7 +47,7 @@ export async function sendConfirmationEmails({
         email: REPLY_EMAIL,
         name: "Hawaiians in Tech",
       },
-      to: email,
+      to: ADMIN_EMAILS,
       subject: `Member Submission: ${name}`,
       html: render(
         <PendingMemberEmail
