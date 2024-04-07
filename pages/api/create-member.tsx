@@ -198,8 +198,6 @@ export default async function handler(req, res) {
       title,
       website, // TODO: Remove "website" input param and replace with "link"
     } = req.body;
-    console.log(req.body);
-
     const isEmailUsed = await emailExists(email);
     if (isEmailUsed) {
       console.log("🚫 email already exists");
