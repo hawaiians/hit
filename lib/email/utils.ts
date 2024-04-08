@@ -1,3 +1,10 @@
+export const REPLY_EMAIL = "no-reply@hawaiiansintech.org";
+
+export const ADMIN_EMAILS = [
+  "taylor@hawaiiansintech.org",
+  "kamakani@hawaiiansintech.org",
+];
+
 export const getEmailTemplate = ({
   body,
   prependMessage,
@@ -230,13 +237,6 @@ ${
 `;
 };
 
-export const REPLY_EMAIL = "no-reply@hawaiiansintech.org";
-
-export const ADMIN_EMAILS = [
-  "taylor@hawaiiansintech.org",
-  "kamakani@hawaiiansintech.org",
-];
-
 export interface GenerateMailToOptions {
   subject?: string;
   body?: string;
@@ -248,7 +248,7 @@ export interface GenerateMailToOptions {
 }
 
 export const generateAdminMailToLink = (
-  options: GenerateMailToOptions = {}
+  options: GenerateMailToOptions = {},
 ): string => {
   const queryParams = [];
 

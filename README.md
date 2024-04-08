@@ -24,6 +24,14 @@ yarn dev
 
 In your browser, open `localhost:3000`.
 
+To start the email templating server run:
+
+```
+yarn dev:email
+```
+
+In your browser, open `localhost:3000`.
+
 ## Firebase Access
 
 If you are looking to access the Firebase data, please reach out to our Hawaiians In Tech website development team on our [Discord](https://discord.gg/p7338Z5MJQ).

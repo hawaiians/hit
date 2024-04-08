@@ -74,7 +74,7 @@ export default function JoinStep4({ pageTitle }) {
         },
         (error: Response) => {
           reject(error);
-        }
+        },
       );
     });
   };
@@ -114,7 +114,14 @@ export default function JoinStep4({ pageTitle }) {
     const resJSON = await res.json();
     if (res.ok) {
       clearAllStoredFields("jf");
-      router.push({ pathname: "thank-you" });
+      router.push({
+        pathname: "thank-you",
+        query: {
+          // Passes the selected values to the thank-you page
+          focusesSelected: focusesSelected,
+          industriesSelected: industriesSelected,
+        },
+      });
     } else if (res.status === 422) {
       setLoading(false);
       setError({
@@ -160,7 +167,7 @@ export default function JoinStep4({ pageTitle }) {
             email: Yup.string()
               .email("That email doesn't look right. Please try again.")
               .required(
-                "It's important that we can reach you. Email is required."
+                "It's important that we can reach you. Email is required.",
               ),
           })}
         >
@@ -205,7 +212,7 @@ export default function JoinStep4({ pageTitle }) {
                     htmlFor="send-me-emails"
                     className="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Please let me know about{" "}
+                    Let me know about{" "}
                     <strong className="font-semibold">
                       features and community updates
                     </strong>{" "}

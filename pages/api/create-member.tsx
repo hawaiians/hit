@@ -1,7 +1,4 @@
-import {
-  SendConfirmationEmailProps,
-  sendConfirmationEmails,
-} from "@/lib/email/confirmation-email";
+import { sendConfirmationEmails } from "@/lib/email";
 import {
   FirebaseDefaultValuesEnum,
   FirebaseTablesEnum,
@@ -19,14 +16,12 @@ import SendGrid from "@sendgrid/mail";
 import * as admin from "firebase-admin";
 import {
   addDoc,
-  arrayUnion,
   collection,
   doc,
   DocumentReference,
   getDocs,
   query,
   serverTimestamp,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { useEmailCloaker } from "helpers";
@@ -111,11 +106,11 @@ const idsToRefs = async (
   return refs;
 };
 
-interface MemberFields {
+export interface MemberFields {
   name: string;
   email: string;
-  location: string;
-  website?: string;
+  location?: string;
+  website?: string; // TODO: Remove "website" input param and replace with "link"
   link?: string;
   focusesSelected?: string | string[];
   focusSuggested?: string;
@@ -191,54 +186,56 @@ const addToFirebase = async (
   });
 };
 
-const sendSgEmail = async ({
-  email,
-  firebaseId,
-  name,
-}: SendConfirmationEmailProps) => {
-  return new Promise((resolve, reject) => {
-    sendConfirmationEmails({
-      email: email,
-      firebaseId: firebaseId,
-      name: name,
-    })
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Only POST requests allowed" });
   }
   try {
-    const isEmailUsed = await emailExists(req.body.email);
-    if (!isEmailUsed) {
-      const docRef: DocumentReference = await addToFirebase({
-        ...req.body,
-      }).then((body) => {
-        console.log("✅ added member to firebase");
-        return body;
-      });
-      await sendSgEmail({
-        email: req.body.email,
-        firebaseId: docRef.id,
-        name: req.body.name,
-      }).then(() => {
-        console.log("✅ sent member email via sendgrid");
-      });
-      return res.status(200).json({ message: "Successfully added member." });
-    } else {
-      return res.status(422).json({
-        error: "This email is associated with another member.",
-        body: "We only allow one member per email address.",
+    const {
+      email,
+      name,
+      location,
+      title,
+      website, // TODO: Remove "website" input param and replace with "link"
+    } = req.body;
+    const isEmailUsed = await emailExists(email);
+    if (isEmailUsed) {
+      console.log("🚫 email already exists");
+      return res.status(409).json({
+        error: "409",
+        body: "Sorry, please use a different email.",
       });
     }
+
+    const docRef: DocumentReference = await addToFirebase({
+      ...req.body,
+    }).then((body) => {
+      console.log("✅ added member to firebase");
+      return body;
+    });
+    const { id } = docRef;
+
+    await sendConfirmationEmails({
+      email: email,
+      recordID: id,
+      name: name,
+      location: location,
+      title: title,
+      link: website, // TODO: Remove "website" input param and replace with "link"
+    })
+      .then(() => {
+        console.log("✅ sent 2 emails via sendgrid");
+      })
+      .catch((error) => {
+        console.error("🚫 Error sending email:", error);
+        throw error;
+      });
+
+    return res.status(200).json({ message: "Successfully added member." });
   } catch (error) {
+    // TODO Add more specific error handling
+    //      - e.g. addToFirebase from firebase
+    //      -      sendConfirmationEmails from sendgrid
     return res.status(error.statusCode || 500).json({
       error: "Gonfunnit, looks like something went wrong!",
       body: "Please try again later.",
