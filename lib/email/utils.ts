@@ -1,7 +1,7 @@
 export const REPLY_EMAIL = "no-reply@hawaiiansintech.org";
 
 export const ADMIN_EMAILS = [
-  "taylor@hawaiiansintech.org",
+  "kekai@hawaiiansintech.org",
   "kamakani@hawaiiansintech.org",
 ];
 

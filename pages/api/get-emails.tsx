@@ -47,6 +47,7 @@ async function getEmails({ token }: getEmailsProps): Promise<MemberEmail[]> {
               emailAbbr: masked_email || null,
               status: status || null,
               unsubscribed: unsubscribed || false,
+              unsubKey: data.fields.unsubscribe_key || null,
             };
           }
         } catch (error) {

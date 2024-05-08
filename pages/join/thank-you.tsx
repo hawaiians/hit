@@ -276,7 +276,8 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
           <p className="text-sm tracking-wide text-secondary-foreground">
             You should have received a confirmation email from us. If you
             didn't, you may need to add{" "}
-            <Code>no-reply@hawaiiansintech.org</Code> to your address book.
+            <Code noWrap>no-reply@hawaiiansintech.org</Code> to your address
+            book.
           </p>
           <p className="text-sm tracking-wide text-secondary-foreground">
             If you are having any issues, please contact us on{" "}

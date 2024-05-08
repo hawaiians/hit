@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signInWithGoogle, signOutWithGoogle } from "../../lib/firebase";
+import { ADMIN_EMAILS } from "@/lib/email/utils";
 
 export async function getStaticProps() {
   return {
@@ -51,6 +52,40 @@ export default function EmailsPage(props: { pageTitle }) {
     if (data) {
       setEmails(data.emails);
     }
+  };
+
+  const fetchUnsubKey = async (uid: string) => {
+    const unsubLink = await fetch(`/api/unsubscribe?uid=${uid}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await user.getIdToken()}`,
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return data.unsubKey;
+      })
+      .catch((error) => {
+        console.log("error: ", error.message);
+      });
+    return unsubLink;
+  };
+
+  const sendNewsletter = async (email: string, unsubscribeUrl: string) => {
+    fetch("/api/newsletter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await user.getIdToken()}`,
+      },
+      body: JSON.stringify({
+        email: email,
+        unsubscribeUrl: unsubscribeUrl,
+      }),
+    });
   };
 
   useEffect(() => {
@@ -88,7 +123,11 @@ export default function EmailsPage(props: { pageTitle }) {
           {isAdmin && (
             <div className="mx-auto">
               {emails ? (
-                <EmailList emails={emails} />
+                <EmailList
+                  emails={emails}
+                  fetchUnsubKey={fetchUnsubKey}
+                  sendNewsletter={sendNewsletter}
+                />
               ) : (
                 <strong>Authorized, but emails did not load.</strong>
               )}
@@ -105,7 +144,12 @@ enum EmailDirectoryFilter {
   All = "All",
 }
 
-const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
+const EmailList: FC<{
+  emails: MemberEmail[];
+  fetchUnsubKey: (uid: string) => Promise<void>;
+  sendNewsletter: (email: string, unsubscribeUrl: string) => Promise<void>;
+}> = ({ emails, fetchUnsubKey, sendNewsletter }) => {
+  const baseUrl = window.location.origin;
   const [error, setError] = useState<ErrorMessageProps>(null);
   const [showCopiedNotification, setShowCopiedNotification] =
     useState<boolean>(false);
@@ -117,6 +161,7 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
   const [revealEmail, setRevealEmail] = useState<boolean>(false);
   const [includeName, setIncludeName] = useState<boolean>(true);
   const [selectedEmails, setSelectedEmails] = useState<MemberEmail[]>([]);
+  const [showUnsubLink, setShowUnsubLink] = useState<boolean>(false);
 
   useEffect(() => {
     setEmailsShown(
@@ -136,10 +181,15 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
         .sort((a, b) => {
           if (a?.unsubscribed && !b?.unsubscribed) return -1;
           if (!a?.unsubscribed && b?.unsubscribed) return 1;
+          if (selectedEmails.includes(a) && !selectedEmails.includes(b))
+            return -1;
+          if (!selectedEmails.includes(a) && selectedEmails.includes(b))
+            return 1;
+
           return 0;
         }),
     );
-  }, [emails, tabVisible]);
+  }, [emails, tabVisible, selectedEmails]);
 
   const handleEmailSelection = (em: MemberEmail) => {
     if (selectedEmails.find((selectedEm) => em?.id === selectedEm?.id)) {
@@ -157,9 +207,94 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
           emailAbbr: em?.emailAbbr,
           status: em?.status,
           unsubscribed: em?.unsubscribed,
+          unsubKey: em?.unsubKey,
         },
       ]);
     }
+  };
+
+  /**
+   * Checks if the emails in the list have any issues.
+   *
+   * @param {MemberEmail[]} emailList - The list of emails to check.
+   * @returns {boolean} - Returns true if any email in the list has an issue, false otherwise.
+   */
+  const emailsHaveIssues = (emailList: MemberEmail[]): boolean => {
+    emailList.map((email) => {
+      if (email?.unsubscribed) {
+        setError({
+          headline: "Error",
+          body: `Cannot send email to unsubscribed member: ${email.email}`,
+        });
+        return true;
+      }
+      if (!email?.unsubKey) {
+        setError({
+          headline: "Error",
+          body: `Cannot send email to member without unsubscribe key: ${email.email}`,
+        });
+        return true;
+      }
+      if (!email?.email) {
+        setError({
+          headline: "Error",
+          body: `Cannot send email to member without email: ${email.email}`,
+        });
+      }
+      return true;
+    });
+    return false;
+  };
+
+  const handleSendEmails = async (emailList: MemberEmail[]) => {
+    if (emailList.length === 0) {
+      console.error("No emails to send to");
+      setError({
+        headline: "Error",
+        body: "No emails to send to",
+      });
+      return;
+    }
+    if (emailsHaveIssues(emailList)) {
+      return;
+    }
+    await Promise.all(
+      emailList.map(async (email) => {
+        try {
+          const unsubLink = `${baseUrl}/edit/unsubscribe?uid=${email?.id}&unsubKey=${email?.unsubKey}`;
+          console.log(
+            `sending email to ${email.email} with unsublink ${unsubLink}`,
+          );
+          sendNewsletter(email.email, unsubLink);
+        } catch {
+          console.error("Failed to send email for: ", email.email);
+        }
+      }),
+    );
+  };
+
+  const handleGenerateUnsubKeys = async (emailList: MemberEmail[]) => {
+    setError(null);
+    await Promise.all(
+      emailList.map(async (email) => {
+        if (!email.unsubKey) {
+          try {
+            const unsubKey = await fetchUnsubKey(email.id);
+            console.log(
+              `Generated unsubscribe key for ${email.email}: ${unsubKey}`,
+            );
+            return unsubKey;
+          } catch (error) {
+            console.error("Failed to generate unsubscribe key: ", error);
+            setError({
+              headline: "Error",
+              body: `Failed to generate unsubscribe key for ${email.email}`,
+            });
+          }
+        }
+      }),
+    );
+    window.location.reload();
   };
 
   const handleCopyToClipboard = (emailList: MemberEmail[]) => {
@@ -235,42 +370,107 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
                   }
                 }}
               >
-                Deselect All
+                Deselect
               </Button>
             ) : (
-              <Button
-                size={ButtonSize.XSmall}
-                variant={ButtonVariant.Secondary}
-                onClick={() => {
-                  setSelectedEmails([...emails]);
-                }}
-              >
-                Select All
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Secondary}
+                  onClick={() => {
+                    setSelectedEmails([...emails]);
+                  }}
+                >
+                  Select All
+                </Button>
+                {/* <Button
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Secondary}
+                  onClick={() => {
+                    setSelectedEmails(
+                      [...emails].filter((em) => !em?.unsubscribed),
+                    );
+                  }}
+                >
+                  Select Subscribed
+                </Button> */}
+                <Button
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Secondary}
+                  onClick={() => {
+                    setSelectedEmails(
+                      [...emails].filter(
+                        (em) =>
+                          !em?.unsubscribed &&
+                          (em?.status === StatusEnum.APPROVED ||
+                            em?.status === StatusEnum.IN_PROGRESS),
+                      ),
+                    );
+                  }}
+                >
+                  Select Subscribed, Approved, & In Progress
+                </Button>
+                <Button
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Secondary}
+                  onClick={() => {
+                    // const emailList = [];
+                    setSelectedEmails(
+                      [...emails].filter((em) =>
+                        ADMIN_EMAILS.includes(em?.email),
+                      ),
+                    );
+                  }}
+                >
+                  Select Admins
+                </Button>
+              </div>
             )}
-            <Button
-              onClick={() => {
-                if (selectedEmails.length > 0) {
-                  handleCopyToClipboard(selectedEmails);
-                } else if (emailsShown) {
-                  handleCopyToClipboard(emailsShown);
-                }
-              }}
-              size={ButtonSize.XSmall}
-              variant={ButtonVariant.Invert}
-            >
-              {showCopiedNotification
-                ? "Copied! ✔️"
-                : selectedEmails.length > 0
-                ? `Copy Selected (${selectedEmails.length})`
-                : `Copy All (${emailsShown.length})`}
-            </Button>
+            {selectedEmails.length > 0 && (
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => {
+                    if (selectedEmails.length > 0) {
+                      handleCopyToClipboard(selectedEmails);
+                    } else if (emailsShown) {
+                      handleCopyToClipboard(emailsShown);
+                    }
+                  }}
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Invert}
+                >
+                  {showCopiedNotification
+                    ? "Copied! ✔️"
+                    : selectedEmails.length > 0
+                      ? `Copy Selected (${selectedEmails.length})`
+                      : `Copy All (${emailsShown.length})`}
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleGenerateUnsubKeys(selectedEmails);
+                  }}
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Primary}
+                >
+                  {`Generate unsubKeys (${selectedEmails.length})`}
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleSendEmails(selectedEmails);
+                  }}
+                  size={ButtonSize.XSmall}
+                  variant={ButtonVariant.Primary}
+                >
+                  {`Send Emails to Selected (${selectedEmails.length})`}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
       <div className="mx-auto flex w-full flex-col">
         <div className="w-full border-b border-tan-400 bg-tan-100">
-          <div className="mx-auto flex max-w-5xl justify-between gap-4 p-2">
+          <div className="mx-auto flex max-w-5xl flex-col justify-between gap-4 p-2">
             {tabVisible === EmailDirectoryFilter.All ? (
               <p className="flex flex-wrap gap-x-1 text-xs text-stone-500">
                 This list includes all email addresses, including unsubscribed
@@ -286,6 +486,21 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
               </p>
             )}
             <div className="flex shrink-0 gap-4">
+              <div className="flex gap-x-2">
+                <Checkbox
+                  checked={showUnsubLink}
+                  onCheckedChange={() => {
+                    setShowUnsubLink(!showUnsubLink);
+                  }}
+                  id="unsubscribe-link"
+                />
+                <label
+                  htmlFor="unsubscribe-link"
+                  className="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Unsubscribe Link
+                </label>
+              </div>
               <div className="flex gap-x-2">
                 <Checkbox
                   checked={!revealEmail}
@@ -400,10 +615,10 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
                             em?.status === StatusEnum.APPROVED
                               ? TagVariant.Success
                               : em?.status === StatusEnum.IN_PROGRESS
-                              ? TagVariant.NearSuccess
-                              : em?.status === StatusEnum.PENDING
-                              ? TagVariant.Warn
-                              : TagVariant.Alert
+                                ? TagVariant.NearSuccess
+                                : em?.status === StatusEnum.PENDING
+                                  ? TagVariant.Warn
+                                  : TagVariant.Alert
                           }
                         >
                           {convertStringSnake(em?.status)}
@@ -413,7 +628,7 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
                     </div>
                     <h5
                       className={cn(
-                        "inline-flex items-center gap-1 rounded bg-tan-500/10 px-2 py-1 text-xs",
+                        "flex flex-col items-start gap-1 rounded bg-tan-500/10 px-2 py-1 text-xs",
                         em?.unsubscribed && "bg-red-400/10 text-red-600",
                       )}
                     >
@@ -458,6 +673,26 @@ const EmailList: FC<{ emails: MemberEmail[] }> = ({ emails }) => {
                             Transactional / urgent emails only
                           </span>
                         </>
+                      )}
+                      {showUnsubLink && (
+                        <span
+                          className={cn(
+                            `inline-flex shrink-0 cursor-text select-text text-stone-500`,
+                            selected && "text-stone-600",
+                            em?.unsubscribed && `text-red-600/60`,
+                          )}
+                        >
+                          {em?.unsubKey ? (
+                            <span className="text-blue-500">
+                              {`${baseUrl}/edit/unsubscribe?uid=${em?.id}&unsubKey=${em?.unsubKey}`}
+                            </span>
+                          ) : (
+                            <span className="rounded bg-yellow-50/80 px-1 py-0.5 font-semibold text-yellow-600">
+                              Unsubscribe link not generated yet
+                            </span>
+                          )}
+                        </span>
+                        // </div>
                       )}
                     </h5>
                   </div>

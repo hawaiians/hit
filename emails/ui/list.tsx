@@ -13,7 +13,7 @@ export default function List({
     <Section className="text-xs sm:text-sm">
       {nodes?.map(({ icon, label }, i) => (
         <Row className={cn(i > 0 && i < nodes.length - 1 && "my-2")} key={i}>
-          <Column className="w-12 text-4xl">{icon}</Column>
+          <Column className="w-16 text-center text-4xl">{icon}</Column>
           <Column>{label}</Column>
         </Row>
       ))}

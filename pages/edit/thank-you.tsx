@@ -77,7 +77,7 @@ export default function ThankYou({ pageTitle }) {
 
           {id ? (
             <h6>
-              <strong>Member ID</strong>: <Code>{id}</Code>
+              <strong>Member ID</strong>: <Code noWrap>{id}</Code>
             </h6>
           ) : null}
         </main>
