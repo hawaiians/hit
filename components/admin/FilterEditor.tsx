@@ -95,7 +95,7 @@ export default function FilterEditor({
             filters.map((filter, i) => {
               const focusNotApproved = filter.status !== StatusEnum.APPROVED;
               return (
-                <div className={filterClass}>
+                <div className={filterClass} key={`${filter.id}-${i}`}>
                   <span
                     className={cn(
                       focusNotApproved &&
