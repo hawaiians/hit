@@ -241,7 +241,9 @@ export default function JoinStep4({ pageTitle }) {
           }}
         </Formik>
       </section>
-      <ProgressBar currentCount={4} totalCount={4} width="6.4rem" />
+      <div className="mt-6">
+        <ProgressBar currentCount={4} totalCount={4} width="6.4rem" />
+      </div>
     </>
   );
 }

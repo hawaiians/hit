@@ -91,7 +91,7 @@ export default function JoinStep1({ pageTitle }) {
         onSubmit={handleSubmit}
         onReset={handleReset}
       />
-      <div style={{ margin: "1rem 0 4rem" }}>
+      <div className="mt-6">
         <ProgressBar currentCount={1} totalCount={4} width="6.4rem" />
       </div>
     </>
