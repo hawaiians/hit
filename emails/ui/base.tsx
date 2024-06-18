@@ -1,13 +1,4 @@
-import { cn } from "@/lib/utils";
-import {
-  Body,
-  Container,
-  Head,
-  Html,
-  Img,
-  Preview,
-  Tailwind,
-} from "@react-email/components";
+import { Body, Head, Html, Preview, Tailwind } from "@react-email/components";
 const tailwindConfig = require("../../tailwind.config.js");
 
 export default function Base({
