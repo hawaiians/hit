@@ -44,16 +44,17 @@ export default function FilterEditor({
     ? filters.filter((f) => f.status !== StatusEnum.APPROVED).map((f) => f.name)
     : [];
 
-  const filterClass =
-    "inline-block " +
-    "rounded-xl " +
-    "border " +
-    "px-3 " +
-    "py-0.5 " +
-    "my-0.5 " +
-    "text-sm " +
-    "tracking-wide " +
-    "text-secondary-foreground";
+  const filterClass = `
+    inline-block
+    rounded-xl
+    border
+    px-3
+    py-0.5
+    my-0.5
+    text-sm
+    tracking-wide
+    text-secondary-foreground
+    `;
 
   const handleOpen = async () => {
     setOpen(!open);
