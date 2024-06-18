@@ -20,11 +20,13 @@
     --accent-foreground: 24 9.8% 10%;
     /* Set the opacity to /10 */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 84.2% 60.2%;
+    --destructive-foreground: 0 84.2% 94%;
     --border: 28 20% 75%;
     --input: 28 20% 70%;
     --ring: 28 83% 44%;
     --radius: 0.5rem;
+    --success: 161 28% 87%;
+    --success-foreground: 161 94% 30%;
   }
 
   .dark {
