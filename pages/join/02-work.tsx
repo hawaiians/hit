@@ -104,7 +104,7 @@ export default function JoinStep2({ focuses, pageTitle }) {
         onSubmit={handleSubmit}
       />
 
-      <div style={{ margin: "1rem 0 4rem" }}>
+      <div className="mt-6 pb-12">
         <ProgressBar currentCount={2} totalCount={4} width="6.4rem" />
       </div>
     </>

@@ -11,7 +11,7 @@ export function CTABlockButton({
   return (
     <Button
       href={href}
-      className="border-stone-200 tracking-wide border border-solid text-stone-600 px-2 py-1 rounded"
+      className="rounded border border-solid border-stone-200 px-2 py-1 tracking-wide text-stone-600"
     >
       {children}
     </Button>
@@ -30,7 +30,7 @@ export default function CTABlock({
   return (
     <Section
       className={cn(
-        "p-2 bg-stone-100 my-4 rounded text-xs text-stone-500",
+        "my-4 rounded bg-stone-100 p-2 text-xs text-stone-500",
         className,
       )}
     >
@@ -41,7 +41,7 @@ export default function CTABlock({
               "text-center",
               nodes.length >= 2 && `w-1/${nodes.length}`,
               i >= 1 &&
-                "sm:border-l sm:border-l-stone-200 sm:border-solid sm:border-r-0 sm:border-t-0 sm:border-b-0",
+                "sm:border-b-0 sm:border-l sm:border-r-0 sm:border-t-0 sm:border-solid sm:border-l-stone-200",
             )}
             key={`cta-block-${i}`}
           >

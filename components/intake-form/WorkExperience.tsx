@@ -46,15 +46,15 @@ export default function WorkExperience({
   const [showSuggestButton, setShowSuggestButton] = useState(true);
 
   const [focusesSelected, setFocusesSelected] = useState<string[]>(
-    initial.focusesSelected
+    initial.focusesSelected,
   );
   const [focusSuggested, setFocusSuggested] = useState<string>(
-    initial.focusSuggested
+    initial.focusSuggested,
   );
   const [title, setTitle] = useState<string>(initial.title);
   const [deferTitle, setDeferTitle] = useState<"true">(initial.deferTitle);
   const [yearsExperience, setYearsExperience] = useState<string>(
-    initial.yearsExperience
+    initial.yearsExperience,
   );
   const totalFocusesSelected =
     focusesSelected?.length + (focusSuggested ? 1 : 0);
@@ -66,7 +66,7 @@ export default function WorkExperience({
 
   useEffect(() => {
     let mql = window.matchMedia(
-      `(min-width: ${theme.layout.breakPoints.small})`
+      `(min-width: ${theme.layout.breakPoints.small})`,
     );
     if (mql.matches) {
       setColumnCount(3);
@@ -180,7 +180,7 @@ export default function WorkExperience({
                     focusSuggested
                       ? () =>
                           window.confirm(
-                            "Are you sure you want to clear this field?"
+                            "Are you sure you want to clear this field?",
                           ) && setFocusSuggested("")
                       : undefined
                   }

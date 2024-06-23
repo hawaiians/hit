@@ -19,7 +19,7 @@ const SelectTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       `flex
-      h-10
+      h-12
       w-full
       items-center
       justify-between

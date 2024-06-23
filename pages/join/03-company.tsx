@@ -97,7 +97,7 @@ export default function JoinStep3({ industries, pageTitle }) {
 
   useEffect(() => {
     let mql = window.matchMedia(
-      `(min-width: ${theme.layout.breakPoints.small})`
+      `(min-width: ${theme.layout.breakPoints.small})`,
     );
     if (mql.matches) {
       setColumnCount(3);
@@ -214,7 +214,7 @@ export default function JoinStep3({ industries, pageTitle }) {
                 selected={deferIndustry === "true"}
                 onClick={() =>
                   setDeferIndustry(
-                    deferIndustry === "true" ? undefined : "true"
+                    deferIndustry === "true" ? undefined : "true",
                   )
                 }
               />
@@ -238,7 +238,7 @@ export default function JoinStep3({ industries, pageTitle }) {
                     industrySuggested && !deferIndustry
                       ? () =>
                           window.confirm(
-                            "Are you sure you want to clear this field?"
+                            "Are you sure you want to clear this field?",
                           ) && setIndustrySuggested("")
                       : undefined
                   }
@@ -300,7 +300,7 @@ export default function JoinStep3({ industries, pageTitle }) {
         </section>
       </section>
 
-      <div style={{ margin: "1rem 0 4rem" }}>
+      <div className="mt-6 pb-12">
         <ProgressBar currentCount={3} totalCount={4} width="6.4rem" />
       </div>
     </>

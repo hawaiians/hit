@@ -41,7 +41,7 @@ export default function CompanyIndustry({
   const width = useWindowWidth();
   let industries: Filter[] = initial.industries;
   const [industriesSelected, setIndustriesSelected] = useState<string[]>(
-    initial.industriesSelected
+    initial.industriesSelected,
   );
   const [industrySuggested, setIndustrySuggested] = useState<string>();
   const [deferIndustry, setDeferIndustry] = useState<"true">();
@@ -69,7 +69,7 @@ export default function CompanyIndustry({
 
   useEffect(() => {
     let mql = window.matchMedia(
-      `(min-width: ${theme.layout.breakPoints.small})`
+      `(min-width: ${theme.layout.breakPoints.small})`,
     );
     if (mql.matches) {
       setColumnCount(3);
@@ -173,7 +173,7 @@ export default function CompanyIndustry({
                 selected={deferIndustry === "true"}
                 onClick={() =>
                   setDeferIndustry(
-                    deferIndustry === "true" ? undefined : "true"
+                    deferIndustry === "true" ? undefined : "true",
                   )
                 }
               />
@@ -197,7 +197,7 @@ export default function CompanyIndustry({
                     industrySuggested && !deferIndustry
                       ? () =>
                           window.confirm(
-                            "Are you sure you want to clear this field?"
+                            "Are you sure you want to clear this field?",
                           ) && setIndustrySuggested("")
                       : undefined
                   }

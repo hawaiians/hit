@@ -7,15 +7,15 @@ import Logo from "./ui/logo";
 
 export default function LoginPromptEmail({
   emailAddress = "[placeholder@hawaiiansintech.org]",
-  promptLink = "[https://hawaiiansintech.org/login]",
+  promptLink = "https://hawaiiansintech.org/login",
 }: {
   emailAddress: string;
   promptLink: string;
 }) {
   return (
     <Base
-      preview={`New Member Submission from ${promptLink}`}
-      title={`New Member Submission from ${promptLink}`}
+      preview={`Log in requested for your email`}
+      title={`Log in requested for your email`}
       align="center"
     >
       <Layout>
@@ -29,7 +29,7 @@ export default function LoginPromptEmail({
           We just received a request to sign in to{" "}
           <Link
             href="https://hawaiiansintech.org/?utm_source=login-link-email-body"
-            className="font-semibold text-inherit underline"
+            className="font-semibold text-inherit"
           >
             Hawaiians in Technology
           </Link>{" "}
