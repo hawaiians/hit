@@ -117,8 +117,8 @@ export default function PrivacyPolicy({ pageTitle }) {
               <h2 className="text-5xl font-semibold">Our Focus</h2>
 
               <p>
-                We're all about supporting <strong>Native Hawaiians</strong> who
-                are:
+                We are led by Native Hawaiians supporting{" "}
+                <strong>Native Hawaiians</strong> who are:
               </p>
               <ul className="list-inside list-disc">
                 <li>Already working in tech</li>
@@ -179,39 +179,27 @@ export default function PrivacyPolicy({ pageTitle }) {
               id="information-we-collect"
               classNames="space-y-2"
             >
-              <h2
-                className={`
-                text-5xl
-                font-semibold
-              `}
-              >
-                What You Can Do
-              </h2>
+              <h2 className="text-5xl font-semibold">What You Can Do</h2>
             </HashAnchorTarget>
 
             <HashAnchorTarget id="joining-our-ohana" classNames="space-y-4">
               <h3 className="text-3xl font-semibold">
                 Joining Our &lsquo;Ohana
               </h3>
-              <p>
-                To join the directory shown on our homepage, you must meet the
-                following criteria:
-              </p>
-              <ul>
+              <p>To join the directory shown on our homepage, you must:</p>
+              <ul className="list-inside list-disc">
                 <li>
                   <strong>Identify as Native Hawaiian</strong> (explained in
-                  more detail below)
+                  more detail above)
                 </li>
                 <li>
                   Provide your name, location, and details about your work in
                   technology
                 </li>
-                <li>Be at least 13 years old</li>
-                <li>Agree to keep your information up-to-date</li>
                 <li>
-                  Consent to having most of your provided information shared
-                  publicly on our website
+                  Consent to having public information shared on our website
                 </li>
+                <li>Be at least 13 years old</li>
               </ul>
               <p>
                 We keep your email and contact info private unless you
@@ -234,16 +222,6 @@ export default function PrivacyPolicy({ pageTitle }) {
               </p>
             </HashAnchorTarget>
 
-            <HashAnchorTarget id="leaving-the-community" classNames="space-y-4">
-              <h3 className="text-3xl font-semibold">Leaving the Community</h3>
-              <p>
-                If you want to{" "}
-                <strong>leave our community and have your info deleted</strong>,
-                just let us know. You can reach out to us using the same contact
-                methods mentioned above.
-              </p>
-            </HashAnchorTarget>
-
             <HashAnchorTarget
               id="being-a-good-community-member"
               classNames="space-y-4"
@@ -256,15 +234,73 @@ export default function PrivacyPolicy({ pageTitle }) {
                 <strong>carry themselves with dignity and grace</strong> in all
                 community spaces. This includes:
               </p>
-              <ul>
+              <ul className="list-inside list-disc">
                 <li>In-person events</li>
                 <li>Virtual calls</li>
                 <li>Our Discord server</li>
                 <li>Group LinkedIn profiles</li>
                 <li>Any other community-sanctioned areas</li>
               </ul>
+              <p>
+                To ensure a positive and productive community environment, we
+                ask all members to adhere to the following rules:
+              </p>
+              <ol className="list-inside list-decimal space-y-2">
+                <li>
+                  <strong>Respect and Professionalism:</strong> Treat all
+                  members of the group with respect and maintain a professional
+                  attitude in all interactions. Offer feedback and advice
+                  constructively, maintaining a positive and supportive tone.
+                  Critiques should focus on ideas, concepts, or actions rather
+                  than attacking individuals personally. Avoid engaging in any
+                  behavior that may be deemed offensive, discriminatory, or
+                  harassing.
+                </li>
+                <li>
+                  <strong>Confidentiality:</strong> Respect the confidentiality
+                  of any sensitive information shared within the group. Do not
+                  disclose or use confidential information without explicit
+                  permission from the individual or organization involved.
+                </li>
+                <li>
+                  <strong>Active Participation:</strong> Engage actively in
+                  discussions, meetings, and events organized by the networking
+                  group. Contribute your knowledge, expertise, and insights to
+                  foster meaningful conversations and facilitate learning
+                  opportunities for all members.
+                </li>
+                <li>
+                  <strong>Collaboration and Support:</strong> Encourage
+                  collaboration among members by offering support, sharing
+                  resources, and providing constructive feedback whenever
+                  possible. Foster an environment that promotes the growth and
+                  success of all participants.
+                </li>
+              </ol>
+              <p>
+                By following these guidelines, we can create a thriving,
+                supportive community that benefits all of our members and
+                upholds the values of our &lsquo;ohana.
+              </p>
             </HashAnchorTarget>
 
+            <HashAnchorTarget id="leaving-the-community" classNames="space-y-4">
+              <h3 className="text-3xl font-semibold">Leaving the Community</h3>
+              <p>
+                If you want to{" "}
+                <strong>leave our community and have your info deleted</strong>,
+                just let us know. You can reach out to us using the same contact
+                methods mentioned above.
+              </p>
+            </HashAnchorTarget>
+            <HashAnchorTarget
+              id="information-we-collect"
+              classNames="space-y-2"
+            >
+              <h2 className="text-5xl font-semibold">
+                What We May Do to Keep the Community Safe
+              </h2>
+            </HashAnchorTarget>
             <HashAnchorTarget
               id="our-right-to-revoke-access"
               classNames="space-y-4"
@@ -276,7 +312,7 @@ export default function PrivacyPolicy({ pageTitle }) {
                 We want to keep our community positive and supportive. So, we
                 reserve the right to:
               </p>
-              <ul>
+              <ul className="list-inside list-disc">
                 <li>
                   Remove anyone who doesn't follow our guidelines or policies
                 </li>
@@ -293,7 +329,7 @@ export default function PrivacyPolicy({ pageTitle }) {
                 This removal or revocation of access may include, but is not
                 limited to:
               </p>
-              <ul>
+              <ul className="list-inside list-disc">
                 <li>Our website</li>
                 <li>Our Discord server</li>
                 <li>Our LinkedIn groups</li>
