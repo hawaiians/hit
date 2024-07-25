@@ -271,7 +271,7 @@ export default function AboutPage({ pageTitle }) {
             Terms of Use
           </Link>{" "}
           ·{" "} */}
-          <Link className="" href="/privacy-policy">
+          <Link className="" href="/terms-of-use">
             Privacy Policy
           </Link>
         </section>

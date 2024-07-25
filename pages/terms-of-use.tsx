@@ -99,7 +99,7 @@ export default function PrivacyPolicy({ pageTitle }) {
                 community.
               </p>
               <p>
-                We will not share personal information with outside parties
+                We will not share non-public information with outside parties
                 without your express permission.
               </p>
             </HashAnchorTarget>

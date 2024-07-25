@@ -183,11 +183,9 @@ export default function JoinStep4({ pageTitle }) {
                     <strong>
                       We treat your email address as private information
                     </strong>
-                    . We wonʻt share it without your explicit consent. Only
-                    trusted members of our administrative hui will have access
-                    to this contact information.{" "}
+                    . We wonʻt share it without your explicit consent.{" "}
                     <Link
-                      href="/privacy-policy#joining-the-directory"
+                      href="/terms-of-use#joining-the-directory"
                       target="_blank"
                     >
                       Learn more
@@ -220,13 +218,13 @@ export default function JoinStep4({ pageTitle }) {
                   </label>
                 </div>
                 <p className="my-2 text-center text-xs text-secondary-foreground">
-                  By continuing, you confirm that you're 13 years or older and
-                  that you've read and agreed to the{" "}
+                  By continuing, you confirm that you've agreed to our{" "}
                   <Link
-                    href="/privacy-policy"
+                    href="/terms-of-use"
+                    target="_blank"
                     className="text-stone-500 underline hover:text-stone-600"
                   >
-                    Privacy Policy
+                    Terms of Use &amp; Privacy Policy
                   </Link>
                   .
                 </p>
