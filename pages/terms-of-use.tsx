@@ -150,8 +150,12 @@ export default function PrivacyPolicy({ pageTitle }) {
                 Members are expected to maintain respectful and professional
                 behavior in all community interactions. We encourage members to
                 participate in community functions and keep their profiles
-                up-to-date. We reserve the right to remove content or revoke
-                access for violations of community standards.
+                up-to-date. If you can't access your account or need help,{" "}
+                <Link href={"#contact-us"}>contact us</Link>.
+              </p>
+              <p>
+                We reserve the right to remove content or revoke access for
+                violations of community standards.
               </p>
             </HashAnchorTarget>
 
@@ -204,8 +208,7 @@ export default function PrivacyPolicy({ pageTitle }) {
               <h2 className="text-3xl font-semibold">Contact Us</h2>
               <p>
                 Please feel free to reach out to{" "}
-                <Link href={"mailto:kekai@hawaiiansintech.org"}>Kekai</Link>{" "}
-                and/or{" "}
+                <Link href={"mailto:kekai@hawaiiansintech.org"}>Kekai</Link> or{" "}
                 <Link href={"mailto:kamakani@hawaiiansintech.org"}>
                   Kamakani
                 </Link>{" "}
