@@ -1,11 +1,9 @@
-import { StaggerText } from "@/components/animation/StraggerText";
 import { HashAnchorTarget } from "@/components/HashAnchorTarget";
 import { Heading } from "@/components/Heading";
 import MetaTags from "@/components/Metatags";
 import Nav from "@/components/Nav";
 import Pill from "@/components/Pill";
 import Plausible from "@/components/Plausible";
-import { generateAdminMailToLink } from "@/lib/email/utils";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -27,28 +25,7 @@ export default function PrivacyPolicy({ pageTitle }) {
       </Head>
       <Nav backUrl="/" />
       <section className="mx-auto max-w-4xl px-4">
-        <Heading>Privacy Policy</Heading>
-        <StaggerText
-          words={[
-            "Your",
-            "privacy",
-            "is",
-            "important",
-            "to",
-            "us.",
-            "🤙🏼",
-            "🤙🏽",
-            "🤙🏾",
-          ]}
-          classNames="mx-auto max-w-2xl flex flex-wrap py-4 text-center gap-1.5 text-4xl sm:gap-4 sm:pt-8 sm:pb-16 sm:text-left sm:text-8xl"
-        />
-        <p>
-          Aloha! Welcome to the Hawaiians in Tech community. We're stoked to
-          have you here. This Terms of Service (ToS) outlines how our community
-          works and what we expect from our members. We've tried to keep it
-          simple and straightforward, but if you have any questions, just give
-          us a shout.
-        </p>
+        <Heading>Terms of Service</Heading>
       </section>
       <section className="mx-auto max-w-7xl px-4 text-xl sm:my-12 sm:flex sm:space-x-16 sm:px-8">
         <aside className="sm:sticky sm:top-8 sm:shrink-0 sm:self-start">
@@ -103,7 +80,7 @@ export default function PrivacyPolicy({ pageTitle }) {
             <HashAnchorTarget id="who-we-are" classNames="space-y-4">
               <h2 className="text-5xl font-semibold">Who We Are</h2>
               <p>
-                We're <strong>Hawaiians in Tech, LLC</strong>, a company
+                We're <strong>Hawaiians in Tech, LLC</strong>, an organization
                 dedicated to supporting and connecting Native Hawaiians in the
                 tech industry. Our mission is to{" "}
                 <strong>uplift our community, not to make a profit</strong>.
@@ -117,34 +94,35 @@ export default function PrivacyPolicy({ pageTitle }) {
               <h2 className="text-5xl font-semibold">Our Focus</h2>
 
               <p>
-                We are led by Native Hawaiians supporting{" "}
-                <strong>Native Hawaiians</strong> who are:
+                We are a collection of{" "}
+                <strong>
+                  Native Hawaiians supporting peer Native Hawaiians
+                </strong>{" "}
+                who are:
               </p>
               <ul className="list-inside list-disc">
                 <li>Already working in tech</li>
-                <li>Students looking to get into tech</li>
+                <li>Students studying technical fields</li>
                 <li>People of any age looking to switch careers into tech</li>
               </ul>
+            </HashAnchorTarget>
+            <HashAnchorTarget id="our-focus" classNames="space-y-4">
+              <h3 className="text-3xl font-semibold">On Being Hawaiian</h3>
               <p>
                 Our understanding of Native Hawaiian identity is rooted in{" "}
-                <strong>
-                  connection to Hawaiian heritage, culture, and the 'āina (land)
-                </strong>
-                . We recognize that Native Hawaiian identity is complex and
-                deeply personal.
+                connection to Hawaiian heritage, culture, and the 'āina (land).
+                We recognize that Native Hawaiian identity is complex and deeply
+                personal.
               </p>
               <p>
                 We understand that people's connections to Hawaiian culture are
                 multifaceted and unique. When joining our community, we invite
-                you to reflect on your{" "}
-                <strong>
-                  mo'okūauhau (genealogy) and your personal connection to
-                  Hawaiian heritage
-                </strong>
-                . This connection might be expressed through family histories,
-                cultural practices, or your relationship with Hawaiian lands and
-                communities. We honor the diverse ways our community members
-                maintain their connections to their Hawaiian roots.
+                you to reflect on your mo'okūauhau (genealogy) and your personal
+                connection to Hawaiian heritage. This connection might be
+                expressed through family histories, cultural practices, or your
+                relationship with Hawaiian lands and communities. We honor the
+                diverse ways our community members maintain their connections to
+                their Hawaiian roots.
               </p>
               <p>
                 <strong>
@@ -157,12 +135,14 @@ export default function PrivacyPolicy({ pageTitle }) {
                 person's journey and connection to their Hawaiian heritage is
                 unique and valid.
               </p>
-              <h3 className="text-3xl font-semibold">Allies</h3>
+              <h3 className="text-3xl font-semibold">
+                On Supporting as an Ally
+              </h3>
               <p>
-                We truly appreciate our allies and the support they provide to
-                our community. While our primary mission is to nurture and
-                empower Native Hawaiians in tech, we welcome allies in many of
-                our community spaces, such as our Discord server.
+                We truly appreciate our allies and the support they&rsquo;ve
+                provided and continue to provide with our community. While our
+                primary mission is to nurture and empower Native Hawaiians in
+                tech, we welcome allies in many of our community spaces.
               </p>
               <p>
                 Representation on our directory is reserved for those who
@@ -170,8 +150,8 @@ export default function PrivacyPolicy({ pageTitle }) {
                 participation from allies in our broader community conversations
                 and events. This approach allows us to create a unique
                 environment where our Native Hawaiian &lsquo;ohana in tech can
-                thrive, while also benefiting from the valuable perspectives of
-                our allies.
+                thrive, while also benefiting from the valuable perspectives and
+                &lsquo;ike (knowledge) of our allies.
               </p>
             </HashAnchorTarget>
 
@@ -186,24 +166,18 @@ export default function PrivacyPolicy({ pageTitle }) {
               <h3 className="text-3xl font-semibold">
                 Joining Our &lsquo;Ohana
               </h3>
-              <p>To join the directory shown on our homepage, you must:</p>
+              <p>To join the homepage directory, you must:</p>
               <ul className="list-inside list-disc">
+                <li>Identify as Native Hawaiian</li>
                 <li>
-                  <strong>Identify as Native Hawaiian</strong> (explained in
-                  more detail above)
-                </li>
-                <li>
-                  Provide your name, location, and details about your work in
-                  technology
-                </li>
-                <li>
-                  Consent to having public information shared on our website
+                  Provide and be willing to publicly share your name,
+                  approximate location, and professional details
                 </li>
                 <li>Be at least 13 years old</li>
               </ul>
               <p>
                 We keep your email and contact info private unless you
-                explicitly permit us to share it.
+                explicitly give us permission to share it.
               </p>
             </HashAnchorTarget>
 
@@ -215,10 +189,23 @@ export default function PrivacyPolicy({ pageTitle }) {
                 Keeping Your Info Fresh
               </h3>
               <p>
-                We encourage you to <strong>keep your info up-to-date</strong>.
-                You can edit your profile by logging in with your email. If you
-                can't access your email or need help, reach out to us at [email
+                You should <strong>keep your info up-to-date</strong>. You can
+                edit your profile by logging in with your email. If you can't
+                access your email or need help, reach out to us at [email
                 address] or DM a community manager like Kekai or Kamakani.
+              </p>
+              <p>
+                If we notice a lack of activity or that your profile hasn't been
+                updated in a while, we may reach out to you to encourage you to
+                update your information. This helps us ensure that our community
+                remains vibrant and that the information we provide to other
+                members is current and accurate.
+              </p>
+              <p>
+                If your circumstances have changed and you're no longer able to
+                actively participate in the community, please let us know. We
+                can discuss options such as helping update your status or, if
+                necessary, removing your profile from the active directory.
               </p>
             </HashAnchorTarget>
 
@@ -230,23 +217,22 @@ export default function PrivacyPolicy({ pageTitle }) {
                 Being a Good Community Member
               </h3>
               <p>
-                We expect all our members to{" "}
-                <strong>carry themselves with dignity and grace</strong> in all
+                We expect everyone to{" "}
+                <strong>carry themselves with empathy and tact</strong> in all
                 community spaces. This includes:
               </p>
               <ul className="list-inside list-disc">
                 <li>In-person events</li>
                 <li>Virtual calls</li>
-                <li>Our Discord server</li>
-                <li>Group LinkedIn profiles</li>
+                <li>Our Discord server / LinkedIn group</li>
                 <li>Any other community-sanctioned areas</li>
               </ul>
               <p>
                 To ensure a positive and productive community environment, we
                 ask all members to adhere to the following rules:
               </p>
-              <ol className="list-inside list-decimal space-y-2">
-                <li>
+              <ol className="grid list-none grid-cols-2 gap-2 text-sm">
+                <li className="rounded-lg bg-secondary p-4">
                   <strong>Respect and Professionalism:</strong> Treat all
                   members of the group with respect and maintain a professional
                   attitude in all interactions. Offer feedback and advice
@@ -256,25 +242,32 @@ export default function PrivacyPolicy({ pageTitle }) {
                   behavior that may be deemed offensive, discriminatory, or
                   harassing.
                 </li>
-                <li>
+                <li className="rounded-lg bg-secondary p-4">
                   <strong>Confidentiality:</strong> Respect the confidentiality
                   of any sensitive information shared within the group. Do not
                   disclose or use confidential information without explicit
                   permission from the individual or organization involved.
                 </li>
-                <li>
+                <li className="rounded-lg bg-secondary p-4">
                   <strong>Active Participation:</strong> Engage actively in
                   discussions, meetings, and events organized by the networking
                   group. Contribute your knowledge, expertise, and insights to
                   foster meaningful conversations and facilitate learning
                   opportunities for all members.
                 </li>
-                <li>
+                <li className="rounded-lg bg-secondary p-4">
                   <strong>Collaboration and Support:</strong> Encourage
                   collaboration among members by offering support, sharing
                   resources, and providing constructive feedback whenever
                   possible. Foster an environment that promotes the growth and
                   success of all participants.
+                </li>
+                <li className="rounded-lg bg-secondary p-4">
+                  <strong>No Unsolicited Promotions or Spam:</strong> Refrain
+                  from posting unsolicited advertisements, promotions, or spam
+                  in our community spaces. If you&rsquo;re unsure if content or
+                  opportunities would genuinely benefit the community, please
+                  contact our community managers before sharing.
                 </li>
               </ol>
               <p>
@@ -297,9 +290,49 @@ export default function PrivacyPolicy({ pageTitle }) {
               id="information-we-collect"
               classNames="space-y-2"
             >
-              <h2 className="text-5xl font-semibold">
-                What We May Do to Keep the Community Safe
-              </h2>
+              <h2 className="text-5xl font-semibold">What We May Do</h2>
+            </HashAnchorTarget>
+            <HashAnchorTarget id="what-we-may-do" classNames="space-y-4">
+              <p>As part of managing and improving our community, we may:</p>
+              <ul className="list-inside list-disc">
+                <li>
+                  <strong>Contact you:</strong> Community managers may access to
+                  your contact information and reach out for functions related
+                  to Hawaiians in Tech.
+                </li>
+                <li>
+                  <strong>Access your data:</strong> Our administrative,
+                  development, and community management teams may have access to
+                  your information.
+                </li>
+                <li>
+                  <strong>Improve our services:</strong> Continuously work on
+                  enhancing our platform and services to better serve our
+                  community. This may involve analyzing usage patterns and
+                  feedback to inform our decisions.
+                </li>
+                <li>
+                  <strong>Organize events and initiatives:</strong> Plan and
+                  execute events, both online and offline, to foster community
+                  engagement and professional growth.
+                </li>
+                <li>
+                  <strong>Collaborate with partners:</strong> Form partnerships
+                  with organizations that align with our mission to provide
+                  additional opportunities and resources to our members.
+                </li>
+              </ul>
+              <p>
+                In all these activities, we are committed to protecting your
+                privacy and using your information responsibly. If you have any
+                concerns or questions about how we handle your data, please
+                don't hesitate to contact us.
+              </p>
+              <p>
+                We do our best to abide by your contact preferences. Please let
+                us know if you have better channels to reach you at,
+                professionally or otherwise.
+              </p>
             </HashAnchorTarget>
             <HashAnchorTarget
               id="our-right-to-revoke-access"
@@ -314,38 +347,27 @@ export default function PrivacyPolicy({ pageTitle }) {
               </p>
               <ul className="list-inside list-disc">
                 <li>
-                  Remove anyone who doesn't follow our guidelines or policies
+                  Remove, block, and/or ban anyone who doesn't follow our
+                  guidelines or policies
                 </li>
-                <li>Stop communicating with or inviting certain individuals</li>
                 <li>Deny access to our events</li>
                 <li>
-                  <strong>
-                    In extreme cases, remove messages that violate our community
-                    standards
-                  </strong>
+                  Remove or obscure messages that violate our community
+                  standards
                 </li>
               </ul>
+
               <p>
-                This removal or revocation of access may include, but is not
-                limited to:
+                <strong>We&rsquo;re committed to open communication</strong>;
+                we'll always strive to work through any issues before taking
+                such actions. Our goal is to maintain a harmonious community,
+                and we believe that most problems can be resolved through
+                respectful dialogue.
               </p>
-              <ul className="list-inside list-disc">
-                <li>Our website</li>
-                <li>Our Discord server</li>
-                <li>Our LinkedIn groups</li>
-                <li>
-                  Any other platforms we use to host or administer the community
-                </li>
-              </ul>
               <p>
-                We can take these actions at any time and for any reason we deem
-                necessary to maintain the integrity and positive spirit of our
-                community. However,{" "}
-                <strong>we're committed to open communication</strong>. We'll
-                always strive to work together and communicate through any
-                issues before taking such actions. Our goal is to maintain a
-                harmonious community, and we believe that most problems can be
-                resolved through respectful dialogue.
+                However, we can take these actions at any time and for any
+                reason we deem necessary to maintain the integrity and positive
+                spirit of our community.
               </p>
             </HashAnchorTarget>
 
