@@ -1,4 +1,4 @@
-import { Filter } from "@/lib/api";
+import { Filter } from "@/lib/firebase-helpers/interfaces";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import BigPill from "../BigPill";

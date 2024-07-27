@@ -14,7 +14,7 @@ import { Heading } from "@/components/Heading";
 import MetaTags from "@/components/Metatags";
 import Nav from "@/components/Nav";
 import Plausible from "@/components/Plausible";
-import { getFilters } from "@/lib/api";
+import { getFilters } from "@/lib/firebase-helpers/filters";
 import { CompanySizeEnum, FirebaseTablesEnum } from "@/lib/enums";
 import { useStorage, useWindowWidth } from "@/lib/hooks";
 import { FORM_LINKS, useInvalid } from "@/lib/utils";
@@ -157,7 +157,7 @@ export default function JoinStep3({ industries, pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="02-work" />
+      <Nav backLinkTo="02-work" variant="minimized" />
 
       <Heading>Welcome to our little hui.</Heading>
       <section className="mx-auto mb-4 mt-0 max-w-3xl space-y-6 px-8">

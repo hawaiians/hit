@@ -25,7 +25,7 @@ export default function PrivacyPolicy({ pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="/" />
+      <Nav backLinkTo="/" variant="minimized" />
       <section className="mx-auto max-w-4xl px-4">
         <Heading>Privacy Policy</Heading>
         <StaggerText

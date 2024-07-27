@@ -17,7 +17,7 @@ export default function UnsubscribePage({ pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="/" />
+      <Nav backLinkTo="/" />
       <Heading>Unsubscribe from Email List</Heading>
       <Unsubscribe />
     </>

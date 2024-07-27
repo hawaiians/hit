@@ -8,6 +8,7 @@ import { Heading } from "@/components/Heading";
 import MetaTags from "@/components/Metatags";
 import Nav from "@/components/Nav";
 import Plausible from "@/components/Plausible";
+import TurnstileWidget from "@/components/TurnstileWidget";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useStorage } from "@/lib/hooks";
 import { clearAllStoredFields, useInvalid } from "@/lib/utils";
@@ -47,9 +48,12 @@ export default function JoinStep4({ pageTitle }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorMessageProps>(undefined);
 
+  const [turnstileToken, setTurnstileToken] = useState<string>(null);
+  const [widgetKey, setWidgetKey] = useState<number>(0);
+
   const createMember = async () => {
     return new Promise((resolve, reject) => {
-      fetch("/api/create-member", {
+      fetch("/api/members", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,6 +71,7 @@ export default function JoinStep4({ pageTitle }) {
           companySize,
           email,
           unsubscribed: !subscribed,
+          turnstileToken,
         }),
       }).then(
         (response: Response) => {
@@ -128,6 +133,22 @@ export default function JoinStep4({ pageTitle }) {
         headline: resJSON.error,
         body: resJSON.body,
       });
+    } else if (res.status === 409) {
+      setLoading(false);
+      setError({
+        headline: "Looks like that email is already in use.",
+        body: resJSON.body,
+      });
+    } else if (
+      resJSON.message &&
+      resJSON.message.includes("Turnstile verification failed")
+    ) {
+      setWidgetKey((prevKey) => prevKey + 1); // re-render the TurnstileWidget
+      setLoading(false);
+      setError({
+        headline: "There was an issue with the cloudflare check.",
+        body: "Please take a look at the box below and try again.",
+      });
     } else {
       setLoading(false);
       setError({
@@ -144,7 +165,7 @@ export default function JoinStep4({ pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="03-company" />
+      <Nav backLinkTo="03-company" variant="minimized" />
 
       <Heading>Welcome to our little hui.</Heading>
 
@@ -243,6 +264,12 @@ export default function JoinStep4({ pageTitle }) {
       </section>
       <div className="mt-6">
         <ProgressBar currentCount={4} totalCount={4} width="6.4rem" />
+      </div>
+      <div className="mt-8 flex justify-center pb-12">
+        <TurnstileWidget
+          key={widgetKey}
+          onVerify={setTurnstileToken}
+        ></TurnstileWidget>{" "}
       </div>
     </>
   );

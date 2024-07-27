@@ -41,7 +41,7 @@ export default function EmailsPage(props: { pageTitle }) {
   const [emails, setEmails] = useState<MemberEmail[]>([]);
 
   const fetchEmails = async () => {
-    const response = await fetch("/api/get-emails", {
+    const response = await fetch("/api/emails", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -247,30 +247,35 @@ const EmailList: FC<{
   };
 
   const handleSendEmails = async (emailList: MemberEmail[]) => {
-    if (emailList.length === 0) {
-      console.error("No emails to send to");
-      setError({
-        headline: "Error",
-        body: "No emails to send to",
-      });
-      return;
-    }
-    if (emailsHaveIssues(emailList)) {
-      return;
-    }
-    await Promise.all(
-      emailList.map(async (email) => {
-        try {
-          const unsubLink = `${baseUrl}/edit/unsubscribe?uid=${email?.id}&unsubKey=${email?.unsubKey}`;
-          console.log(
-            `sending email to ${email.email} with unsublink ${unsubLink}`,
-          );
-          sendNewsletter(email.email, unsubLink);
-        } catch {
-          console.error("Failed to send email for: ", email.email);
-        }
-      }),
+    const confirmSend = window.confirm(
+      `Are you sure you want to deselect all ${emailList.length} members?`,
     );
+    if (confirmSend) {
+      if (emailList.length === 0) {
+        console.error("No emails to send to");
+        setError({
+          headline: "Error",
+          body: "No emails to send to",
+        });
+        return;
+      }
+      if (emailsHaveIssues(emailList)) {
+        return;
+      }
+      await Promise.all(
+        emailList.map(async (email) => {
+          try {
+            const unsubLink = `${baseUrl}/edit/unsubscribe?uid=${email?.id}&unsubKey=${email?.unsubKey}`;
+            console.log(
+              `sending email to ${email.email} with unsublink ${unsubLink}`,
+            );
+            sendNewsletter(email.email, unsubLink);
+          } catch {
+            console.error("Failed to send email for: ", email.email);
+          }
+        }),
+      );
+    }
   };
 
   const handleGenerateUnsubKeys = async (emailList: MemberEmail[]) => {
@@ -358,16 +363,7 @@ const EmailList: FC<{
                 size={ButtonSize.XSmall}
                 variant={ButtonVariant.Secondary}
                 onClick={() => {
-                  if (selectedEmails.length >= 5) {
-                    const confirmDelete = window.confirm(
-                      `Are you sure you want to deselect all ${selectedEmails.length} members?`,
-                    );
-                    if (confirmDelete) {
-                      setSelectedEmails([]);
-                    }
-                  } else {
-                    setSelectedEmails([]);
-                  }
+                  setSelectedEmails([]);
                 }}
               >
                 Deselect
@@ -451,6 +447,7 @@ const EmailList: FC<{
                   }}
                   size={ButtonSize.XSmall}
                   variant={ButtonVariant.Primary}
+                  disabled={true}
                 >
                   {`Generate unsubKeys (${selectedEmails.length})`}
                 </Button>
@@ -460,6 +457,7 @@ const EmailList: FC<{
                   }}
                   size={ButtonSize.XSmall}
                   variant={ButtonVariant.Primary}
+                  disabled={true} // disabling for now
                 >
                   {`Send Emails to Selected (${selectedEmails.length})`}
                 </Button>

@@ -4,7 +4,7 @@ import ErrorMessage, {
 } from "@/components/form/ErrorMessage";
 import Label from "@/components/form/Label";
 import RadioBox from "@/components/form/RadioBox";
-import { Filter } from "@/lib/api";
+import { Filter } from "@/lib/firebase-helpers/interfaces";
 import { CompanySizeEnum } from "@/lib/enums";
 import { useWindowWidth } from "@/lib/hooks";
 import { scrollToTop } from "helpers";

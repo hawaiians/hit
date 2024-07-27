@@ -1,26 +1,50 @@
-import Button, { ButtonSize } from "@/components/Button";
-import { Heading, Subheading } from "@/components/Heading";
+import * as Yup from "yup";
 import MetaTags from "@/components/Metatags";
 import Nav from "@/components/Nav";
 import Plausible from "@/components/Plausible";
-import Tag from "@/components/Tag";
-import { MemberPublic } from "@/lib/api";
-import { StatusEnum } from "@/lib/enums";
-import { useStorage } from "@/lib/hooks";
-import { FORM_LINKS } from "@/lib/utils";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import Code from "@/components/Code";
+import { useRouter } from "next/router";
+import LoadingSpinner, {
+  LoadingSpinnerVariant,
+} from "@/components/LoadingSpinner";
+import Link from "next/link";
+import { Formik } from "formik";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ShieldAlert } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
-export async function getStaticProps() {
+const DISCORD_SUPPORT_LINK =
+  "https://discord.com/channels/840774778616938526/1239337945006342204";
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const baseUrl = req ? `${protocol}://${req.headers.host}` : "";
+
   return {
     props: {
-      pageTitle: "Request Changes · Hawaiians in Technology",
+      baseUrl: baseUrl,
+      pageTitle: "Update Profile · Hawaiians in Technology",
     },
   };
 }
 
-export default function EditPage({ pageTitle }) {
+export default function EditPage({ baseUrl, pageTitle }) {
   return (
     <>
       <Head>
@@ -28,156 +52,390 @@ export default function EditPage({ pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="/" />
-      <Heading>Request Changes</Heading>
-      <Subheading centered>Welcome back, Hawaiian.</Subheading>
-      <RequestForm />
-    </>
-  );
-}
-
-const features: { title: string; description: string }[] = [
-  {
-    title: "Field of Work",
-    description: "Core discipline and craft in the industry",
-  },
-  {
-    title: "Years of Experience",
-    description: "Level of expertise in your field",
-  },
-  {
-    title: "Industry",
-    description: "Broader domain / business you work within",
-  },
-  {
-    title: "Job title",
-    description: "The title that hangs from your name tag",
-  },
-];
-function RequestForm() {
-  const router = useRouter();
-  const { setItem, removeItem } = useStorage();
-  const [members, setMembers] = useState<MemberPublic[]>([]);
-  const [memberSelected, setMemberSelected] = useState<MemberPublic>();
-
-  useEffect(() => {
-    removeItem("userData");
-    removeItem("editedData");
-    fetch(`/api/get-members?status=${StatusEnum.APPROVED}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMembers(data.members);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    // reset selection
-    removeItem("userData");
-    removeItem("editedData");
-    // add all items in storage
-    if (!memberSelected) return;
-    if (memberSelected) setItem("userData", JSON.stringify(memberSelected));
-  }, [memberSelected]);
-
-  const handleSubmit = () => {
-    router.push({
-      pathname: `/edit/${FORM_LINKS[0]}`,
-    });
-  };
-
-  return (
-    <div
-      className={`
+      <Nav backLinkTo="/" variant="minimized" />
+      <section
+        className={`
         mx-auto
         mb-4
         mt-8
         flex
-        max-w-3xl
+        max-w-lg
         flex-col
-        items-center
         px-4
+        sm:rounded-lg
+        sm:border
+        sm:p-4
       `}
-    >
-      <div className="flex w-full flex-grow items-center gap-4">
-        <label
-          className={`shrink-0 whitespace-nowrap text-stone-900`}
-          htmlFor="member-select"
-        >
-          Request edit for:
-        </label>
-        <select
-          className={`w-full grow rounded bg-tan-100 px-2 py-5 text-lg font-semibold text-stone-700`}
-          name="member-select"
-          id="member-select"
-          onChange={(e) => {
-            setMemberSelected(
-              members.find((member) => member.id === e.target.value)
-            );
-          }}
-        >
-          {members?.length > 0 ? (
-            <option value="">Please choose an option</option>
-          ) : (
-            <option value="">loading</option>
-          )}
-          {members?.map((member: MemberPublic) => (
-            <option value={member.id} key={`member-${member.id}`}>
-              {member.name}
-            </option>
-          ))}
-        </select>
+      >
+        <EditForm baseUrl={baseUrl} />
+      </section>
+    </>
+  );
+}
 
-        <Button
-          size={ButtonSize.Small}
-          onClick={handleSubmit}
-          disabled={!!!memberSelected}
-        >
-          Continue
+enum PageState {
+  Loading = "LOADING",
+  EmailSent = "EMAIL_SENT",
+  NotLoggedIn = "NOT_LOGGED_IN",
+  Error = "ERROR",
+}
+
+function EditForm({ baseUrl }) {
+  const router = useRouter();
+  const [pageState, setPageState] = useState<PageState>(PageState.Loading);
+  const [error, setError] = useState<string>(null);
+  const [showEmailConfirmation, setShowEmailConfirmation] =
+    useState<boolean>(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>(null);
+  const [widgetKey, setWidgetKey] = useState<number>(0);
+
+  const handleSignIn = (email: string) => {
+    // baseUrl is passed in from getServerSideProps
+    // to ensure the correct URL is used in the email
+    // verification link.
+    const fullUrl = `${baseUrl}/edit`;
+
+    fetch("/api/verify-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        url: fullUrl,
+        turnstileToken,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((json) => {
+            if (json.message.includes("Turnstile verification failed")) {
+              // re-render the TurnstileWidget
+              setWidgetKey((prevKey) => prevKey + 1);
+              throw Error(
+                "There was an issue with the " +
+                  "cloudflare check. Please try again.",
+              );
+            } else {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+          });
+        }
+        window.localStorage.setItem("emailForSignIn", email);
+        setPageState(PageState.EmailSent);
+      })
+      .catch((error) => {
+        setPageState(PageState.Error);
+        setError(error.message);
+      });
+  };
+
+  const handleIdToken = async (token: string) => {
+    try {
+      const response = await fetch("/api/member-id", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      switch (response.status) {
+        case 200:
+          const { memberId } = await response.json();
+          router.push({
+            pathname: `/edit/member/`,
+            query: { memberId },
+          });
+          break;
+        case 404:
+          throw Error(
+            "The email you provided is not associated with a Hawaiians in Tech account.",
+          );
+        default:
+          throw Error("Something went wrong");
+      }
+    } catch (error) {
+      setPageState(PageState.Error);
+      setError(error.message);
+    }
+  };
+
+  const handleConfirm = (email: string) => {
+    if (showEmailConfirmation) {
+      setShowEmailConfirmation(false);
+    }
+    signInWithEmailLink(auth, email, window.location.href)
+      .then((result) => {
+        const { user } = result;
+        if (user.email !== email) {
+          throw Error("Something was wrong with the information you provided.");
+        } else {
+          window.localStorage.removeItem("emailForSignIn");
+          user.getIdToken().then((idToken) => {
+            handleIdToken(idToken);
+          });
+        }
+      })
+      .catch((error) => {
+        setPageState(PageState.Error);
+
+        if (error.code === "auth/invalid-action-code") {
+          setError("The link is invalid or expired.");
+        } else if (error.code === "auth/invalid-email") {
+          setError("That email didn't match the one you initially entered.");
+        } else {
+          setError(error.message);
+        }
+      });
+  };
+
+  const handleReset = () => {
+    setShowEmailConfirmation(false);
+    setError(null);
+    setPageState(PageState.NotLoggedIn);
+  };
+
+  useEffect(() => {
+    const email = window.localStorage.getItem("emailForSignIn") ?? null;
+
+    if (!isSignInWithEmailLink(auth, window.location.href)) {
+      handleReset();
+      return;
+    }
+
+    if (!email) {
+      setShowEmailConfirmation(true);
+      return;
+    }
+
+    handleConfirm(email);
+  }, []);
+
+  return (
+    <>
+      {error && (
+        <Alert variant="destructive">
+          <ShieldAlert />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+      {showEmailConfirmation && (
+        <EmailConfirmation onConfirm={handleConfirm} onCancel={handleReset} />
+      )}
+      {pageState === PageState.Loading ? (
+        <div className="flex w-full justify-center">
+          <LoadingSpinner variant={LoadingSpinnerVariant.Invert} />
+        </div>
+      ) : pageState === PageState.NotLoggedIn ? (
+        <LogInForm
+          handleSignIn={handleSignIn}
+          widgetKey={widgetKey}
+          setTurnstileToken={setTurnstileToken}
+        />
+      ) : pageState === PageState.EmailSent ? (
+        <EmailSent />
+      ) : (
+        <TryAgain onReset={handleReset} />
+      )}
+    </>
+  );
+}
+
+function LogInForm({
+  handleSignIn,
+  widgetKey,
+  setTurnstileToken,
+}: {
+  handleSignIn: (email: string) => void;
+  widgetKey: number;
+  setTurnstileToken: (token: string) => void;
+}) {
+  const [loading, setLoading] = useState<boolean>(false);
+  return (
+    <>
+      <Formik
+        initialValues={{
+          email: "",
+        }}
+        validateOnChange
+        onSubmit={(values) => {
+          setLoading(true);
+          handleSignIn(values.email);
+        }}
+        validationSchema={Yup.object().shape({
+          email: Yup.string().email(
+            "That email doesn't look right. Please try again.",
+          ),
+        })}
+      >
+        {(props) => {
+          const {
+            dirty,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isValid,
+            values,
+          } = props;
+
+          return (
+            <>
+              <form
+                className="flex flex-col items-center gap-6"
+                onSubmit={handleSubmit}
+              >
+                <header className="space-y-2 text-center">
+                  <h2 className="text-2xl">Log in with email</h2>
+                  <p className="text-secondary-foreground">
+                    Access your profile to update your information
+                  </p>
+                </header>
+                <section className="flex flex-col gap-2 self-stretch">
+                  <Input
+                    id="email"
+                    name="email"
+                    onBlur={handleBlur}
+                    value={values.email}
+                    onChange={handleChange}
+                    placeholder="Enter your email address"
+                    autoFocus
+                  />
+                  <Button
+                    type="submit"
+                    disabled={!isValid || !dirty || loading}
+                    loading={loading}
+                  >
+                    Log in
+                  </Button>
+                </section>
+              </form>
+              <div className="mt-4 flex justify-center">
+                <TurnstileWidget
+                  key={widgetKey}
+                  onVerify={setTurnstileToken}
+                ></TurnstileWidget>{" "}
+              </div>
+            </>
+          );
+        }}
+      </Formik>
+      <p className="mt-4 text-center text-sm">
+        New to Hawaiians in Tech?{" "}
+        <Link href="/join/01-you" className="font-semibold">
+          Join Us
+        </Link>
+      </p>
+      <p className="mt-2 text-center text-sm">
+        Having issues?{" "}
+        <Link href={DISCORD_SUPPORT_LINK} className="font-semibold">
+          Let us know on Discord
+        </Link>
+      </p>
+    </>
+  );
+}
+
+function EmailSent() {
+  return (
+    <header className="space-y-2 text-center">
+      <h2 className="text-2xl">Please check your inbox</h2>
+      <p>
+        We&rsquo;ve sent you a magic link to{" "}
+        <strong>{window.localStorage.getItem("emailForSignIn")}</strong>.
+      </p>
+      <p className="px-2 text-sm leading-normal text-secondary-foreground">
+        If you didn&rsquo;t receive it, you may need to add{" "}
+        <Code>no-reply@hawaiiansintech.org</Code> to your address book.
+      </p>
+    </header>
+  );
+}
+
+function TryAgain({ onReset }: { onReset: () => void }) {
+  return (
+    <div>
+      <div className="my-4">
+        <Button size="sm" onClick={onReset}>
+          Try Logging In Again
         </Button>
       </div>
-      {memberSelected && (
-        <a
-          href="edit/04-contact?removeRequest=true"
-          className={`
-            mx-auto
-            mt-6
-            rounded
-            border-4
-            border-transparent
-            bg-red-300/30
-            px-4
-            py-0.5
-            text-center
-            text-red-600
-            transition-all
-            hover:border-red-300/50
-            hover:text-red-600
-          `}
-        >
-          Request removing{" "}
-          <span className={`font-semibold`}>{memberSelected.name}</span> from
-          the list
-        </a>
-      )}
-
-      <div className="mx-auto mt-8 max-w-lg rounded-lg bg-tan-300 px-4 py-4 text-center">
-        <h4 className="mb-4 text-lg font-semibold">
-          <em>Huuuui</em>, get <Tag>NEW</Tag> fields to add to your profile:
-        </h4>
-        <ul className="grid grid-cols-2 gap-4 text-sm">
-          {features.map((feature, i) => {
-            return (
-              <li key={`new-feature-${i}`}>
-                <h3 className={`font-semibold`}>{feature.title}</h3>
-                <p className={`text-stone-600`}>{feature.description}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <p className="text-xs text-stone-500">
+        If you keep having issues, please contact us on{" "}
+        <Link href={DISCORD_SUPPORT_LINK} className="text-inherit underline">
+          our Discord server
+        </Link>
+        .
+      </p>
     </div>
+  );
+}
+
+function EmailConfirmation({
+  onConfirm,
+  onCancel,
+}: {
+  onConfirm: (email: string) => void;
+  onCancel: () => void;
+}) {
+  return (
+    <Dialog open onOpenChange={onCancel}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>New browser detected</DialogTitle>
+          <DialogDescription>
+            You opened the sign-in link in a different window or device. For
+            security reasons, please re-enter the email you gave us earlier.
+          </DialogDescription>
+        </DialogHeader>
+        <Formik
+          initialValues={{
+            email: "",
+          }}
+          validateOnChange
+          onSubmit={(values) => onConfirm(values.email)}
+          validationSchema={Yup.object().shape({
+            email: Yup.string().email(
+              "That email doesn't look right. Please try again.",
+            ),
+          })}
+        >
+          {(props) => {
+            const {
+              dirty,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isValid,
+              values,
+            } = props;
+
+            return (
+              <form onSubmit={handleSubmit}>
+                <Input
+                  id="email"
+                  name="email"
+                  onBlur={handleBlur}
+                  value={values.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email address"
+                  autoFocus
+                />
+                <DialogFooter className="mt-4 sm:justify-start">
+                  <Button type="submit" disabled={!isValid || !dirty}>
+                    Confirm
+                  </Button>
+                  <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </form>
+            );
+          }}
+        </Formik>
+      </DialogContent>
+    </Dialog>
   );
 }

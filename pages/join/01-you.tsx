@@ -7,6 +7,7 @@ import Plausible from "@/components/Plausible";
 import { useStorage } from "@/lib/hooks";
 import { clearAllStoredFields } from "@/lib/utils";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -72,7 +73,7 @@ export default function JoinStep1({ pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="/" />
+      <Nav backLinkTo="/" variant="minimized" />
 
       <Heading>Welcome to our little hui.</Heading>
       <Subheading centered>
@@ -94,6 +95,13 @@ export default function JoinStep1({ pageTitle }) {
       <div className="mt-6">
         <ProgressBar currentCount={1} totalCount={4} width="6.4rem" />
       </div>
+      {/* TODO: Add login link */}
+      {/* <p className="mt-4 text-center text-sm">
+        Have an account?{" "}
+        <Link href="/login" className="font-semibold">
+          Login
+        </Link>
+      </p> */}
     </>
   );
 }

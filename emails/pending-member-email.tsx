@@ -4,7 +4,7 @@ import * as React from "react";
 import CTABlock from "./ui/cta-block";
 import Base from "./ui/base";
 import List from "./ui/list";
-import { MemberFields } from "@/pages/api/create-member";
+import { CreateMemberFields } from "@/lib/firebase-helpers/members";
 import Layout from "./ui/layout";
 import Logo from "./ui/logo";
 
@@ -17,7 +17,7 @@ export default function PendingMemberEmail({
   focusSuggested,
   industrySuggested,
   link = "[https://hawaiiansintech.org]",
-}: MemberFields) {
+}: CreateMemberFields) {
   const FIREBASE_URL = `https://console.firebase.google.com/project/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}/firestore/data/~2Fmembers~2F${recordID}`;
   const suggestions = [focusSuggested, industrySuggested].filter(Boolean); // filters out empty strings
 

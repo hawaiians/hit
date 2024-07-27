@@ -1,5 +1,5 @@
-import { Filter, MemberPublic } from "./api";
-import { CompanySizeEnum, YearsOfExperienceEnum } from "./enums";
+import { Filter, MemberPublic } from "./interfaces";
+import { CompanySizeEnum, YearsOfExperienceEnum } from "../enums";
 export type { MemberPublic };
 /**
  * Stubbed function to simulate fetching technologists
@@ -82,7 +82,7 @@ export function getMembers(): MemberPublicDupe[] {
 export function getFilters(
   filterType: string,
   limitByMembers?: boolean,
-  approvedMemberIds?: string[]
+  approvedMemberIds?: string[],
 ): Filter[] {
   return [
     {

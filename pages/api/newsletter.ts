@@ -1,5 +1,5 @@
-import { sendNewsletter0524 } from "@/emails/send_newsletter-0524";
-import { verifyAdminToken, verifyAuthHeader } from "@/lib/auth";
+import { verifyAdminToken, verifyAuthHeader } from "@/lib/api-helpers/auth";
+import { sendNewsletter0524 } from "@/lib/email/send-newsletter-0524";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -17,7 +17,7 @@ export default async function handler(
   }
 
   try {
-    const token = await verifyAuthHeader(req, res);
+    const token = await verifyAuthHeader(req);
     if (!token) return;
     const isAdmin = await verifyAdminToken(token);
     if (!isAdmin) {

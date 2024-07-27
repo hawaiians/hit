@@ -6,7 +6,7 @@ import WorkExperience, {
 import MetaTags from "@/components/Metatags";
 import Nav from "@/components/Nav";
 import Plausible from "@/components/Plausible";
-import { getFilters } from "@/lib/api";
+import { getFilters } from "@/lib/firebase-helpers/filters";
 import { FirebaseTablesEnum } from "@/lib/enums";
 import { useStorage } from "@/lib/hooks";
 import { FORM_LINKS, useInvalid } from "@/lib/utils";
@@ -88,7 +88,7 @@ export default function JoinStep2({ focuses, pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="01-you" />
+      <Nav backLinkTo="01-you" variant="minimized" />
 
       <Heading>Welcome to our little hui.</Heading>
 

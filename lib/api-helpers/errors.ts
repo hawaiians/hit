@@ -95,8 +95,14 @@ export class KeyVerificationError extends Error {
   }
 }
 
+export class CloudflareVerificationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "CloudflareVerificationError";
+  }
+}
+
 export function handleApiErrors(error: Error, res: NextApiResponse) {
-  console.error("Error caught in handleApiErrors:", error);
   if (
     error instanceof MissingHeaderError ||
     error instanceof MissingQueryError ||
@@ -109,7 +115,8 @@ export function handleApiErrors(error: Error, res: NextApiResponse) {
   if (
     error instanceof MissingTokenError ||
     error instanceof TokenVerificationError ||
-    error instanceof KeyVerificationError
+    error instanceof KeyVerificationError ||
+    error instanceof CloudflareVerificationError
   ) {
     return res.status(401).json({ message: error.message });
   }

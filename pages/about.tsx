@@ -40,7 +40,7 @@ export default function AboutPage({ pageTitle }) {
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="/" />
+      <Nav backLinkTo="/" variant="minimized" />
 
       <div
         className={`

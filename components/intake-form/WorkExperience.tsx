@@ -5,7 +5,7 @@ import ErrorMessage, {
 import Input from "@/components/form/Input";
 import Label from "@/components/form/Label";
 import RadioBox from "@/components/form/RadioBox";
-import { Filter } from "@/lib/api";
+import { Filter } from "@/lib/firebase-helpers/interfaces";
 import { YearsOfExperienceEnum } from "@/lib/enums";
 import { useWindowWidth } from "@/lib/hooks";
 import { MAX_FOCUS_COUNT } from "@/lib/utils";
