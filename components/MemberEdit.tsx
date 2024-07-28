@@ -36,13 +36,16 @@ import {
   YearsOfExperienceEnum,
 } from "@/lib/enums";
 import { User } from "firebase/auth";
-import { convertStringSnake, useEmailCloaker } from "helpers";
+import { convertStringSnake, scrollToTop, useEmailCloaker } from "helpers";
 import { Check, ExternalLink, EyeOff, Info, Trash } from "lucide-react";
 import Link from "next/link";
 import { ADMIN_EMAILS } from "@/lib/email/utils";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
+import ErrorMessage, {
+  ErrorMessageProps,
+} from "@/components/form/ErrorMessage";
 
 export const MemberEdit: FC<{
   member: MemberPublic;
@@ -82,6 +85,7 @@ export const MemberEdit: FC<{
     { name: string; id: string }[] | string[]
   >(member.industry);
   const [suggestedIndustry, setSuggestedIndustry] = useState<string>(undefined);
+  const [error, setError] = useState<ErrorMessageProps>(undefined);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -93,11 +97,11 @@ export const MemberEdit: FC<{
         return true;
       });
     }
-
+    if (error) scrollToTop();
     return () => {
       clearTimeout(timeout);
     };
-  }, [query.updated]);
+  }, [query.updated, error]);
 
   const getRegionIdFromName = (name: string): string => {
     const region = regions.find((r) => r.fields.name === name);
@@ -150,12 +154,14 @@ export const MemberEdit: FC<{
     });
     if (!response.ok) {
       return response.json().then((err) => {
-        throw new Error(
-          `Error updating ${member.name} in firebase: ${err.message}`,
-        );
+        setError({
+          headline: "Error updating member data",
+          body: err.message,
+        });
+        return response;
       });
     }
-    console.log(`✅ updated ${member.name} in firebase`);
+    console.log(`✅ updated ${member.name}`);
     return response;
   };
 
@@ -173,13 +179,19 @@ export const MemberEdit: FC<{
       }),
     });
     if (response.status !== 200) {
-      throw new Error(`Error updating email for ${uid}`);
+      return response.json().then((err) => {
+        setError({
+          headline: `Error updating member email for ${uid}`,
+          body: err.message,
+        });
+      });
     }
-    console.log(`✅ updated email in firebase for ${uid}`);
+    console.log(`✅ updated email for ${uid}`);
     return response;
   };
 
   const saveChanges = async () => {
+    setError(undefined);
     setSaveInProgress(true);
 
     const emailChanged: boolean = email?.email && email.email !== originalEmail;
@@ -203,7 +215,11 @@ export const MemberEdit: FC<{
       yearsExperience: yearsOfExperience,
     };
 
-    await updateMember(updatedMember);
+    const updateResult = await updateMember(updatedMember);
+    if (!updateResult.ok) {
+      setSaveInProgress(false);
+      return;
+    }
     emailChanged && (await updateSecureEmail(member.id, email.email));
     if (onSave) {
       onSave();
@@ -217,6 +233,7 @@ export const MemberEdit: FC<{
       router.reload();
     }
     setSaveInProgress(false);
+    setShowSuccess(true);
   };
 
   const mapTabsTriggerToVariant = (
@@ -301,6 +318,11 @@ export const MemberEdit: FC<{
                   Your changes will be reflected on the website shortly.
                 </AlertDescription>
               </Alert>
+            )}
+            {error && (
+              <div className="mt-2 w-full">
+                <ErrorMessage headline={error.headline} body={error.body} />
+              </div>
             )}
             <h2
               className={`text-sm font-semibold ${

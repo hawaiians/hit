@@ -1,7 +1,10 @@
 import { verifyTurnstileToken } from "@/lib/api-helpers/auth";
-import { handleApiErrors } from "@/lib/api-helpers/errors";
+import { handleApiErrors, ItemNotFoundError } from "@/lib/api-helpers/errors";
 import { checkBodyParams, checkMethods } from "@/lib/api-helpers/format";
-import { sendVerificationEmail } from "@/lib/firebase-helpers/emails";
+import {
+  getEmails,
+  sendVerificationEmail,
+} from "@/lib/firebase-helpers/emails";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse) {
@@ -15,6 +18,14 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
     ? req.headers["CF-Connecting-IP"][0]
     : req.headers["CF-Connecting-IP"];
   await verifyTurnstileToken(turnstileToken, ip);
+  const getApprovedEmails = true;
+  const emails = await getEmails(getApprovedEmails);
+  const matchingMember = emails.find((email) => email.email === req.body.email);
+  if (!matchingMember) {
+    throw new ItemNotFoundError(
+      `Member with email ${req.body.email} not found`,
+    );
+  }
   await sendVerificationEmail(req.body.email, req.body.url);
   res.status(200).json({
     message: `Successfully sent verification email to ${req.body.email}`,

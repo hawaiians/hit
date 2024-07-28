@@ -116,6 +116,19 @@ function EditForm({ baseUrl }) {
                 "There was an issue with the " +
                   "cloudflare check. Please try again.",
               );
+            } else if (
+              json.message.includes(`Member with email ${email} not found`)
+            ) {
+              return new Promise((resolve) => {
+                setTimeout(() => {
+                  setPageState(PageState.Error);
+                  setError(
+                    `We don't recognize the email ${email}. Did you sign up ` +
+                      `with another? `,
+                  );
+                  resolve(response);
+                }, 2000); // 2-second delay if the email is not found
+              });
             } else {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -344,10 +357,18 @@ function EmailSent() {
         We&rsquo;ve sent you a magic link to{" "}
         <strong>{window.localStorage.getItem("emailForSignIn")}</strong>.
       </p>
-      <p className="px-2 text-sm leading-normal text-secondary-foreground">
-        If you didn&rsquo;t receive it, you may need to add{" "}
-        <Code>no-reply@hawaiiansintech.org</Code> to your address book.
-      </p>
+      <div className="text-sm leading-normal text-secondary-foreground">
+        <p>
+          If you didn&rsquo;t receive it, you may need to add{" "}
+          <Code>no-reply@hawaiiansintech.org</Code> to your address book.
+        </p>
+        <p className="mt-2 ">
+          If you&rsquo;re still not receiving it, please{" "}
+          <Link href={DISCORD_SUPPORT_LINK} className="font-semibold">
+            Let us know on Discord
+          </Link>
+        </p>
+      </div>
     </header>
   );
 }
