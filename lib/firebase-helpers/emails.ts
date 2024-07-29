@@ -92,21 +92,20 @@ export const addSecureEmail = async (
 };
 
 export const sendVerificationEmail = async (email: string, url: string) => {
-  await initializeAdmin();
-  const actionCodeSettings = {
-    url: url,
-    handleCodeInApp: true,
-  };
-  admin
-    .auth()
-    .generateSignInWithEmailLink(email, actionCodeSettings)
-    .then(async (link) => {
-      await sendLoginPromptEmail({ emailAddress: email, promptLink: link });
-    })
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
+  try {
+    await initializeAdmin();
+    const actionCodeSettings = {
+      url: url,
+      handleCodeInApp: true,
+    };
+    const link = await admin
+      .auth()
+      .generateSignInWithEmailLink(email, actionCodeSettings);
+    await sendLoginPromptEmail({ emailAddress: email, promptLink: link });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export default serverSideOnly({
