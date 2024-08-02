@@ -267,12 +267,8 @@ export default function AboutPage({ pageTitle }) {
           </p>
         </section>
         <section className="flex gap-4 text-lg font-semibold">
-          {/* <Link className="" href="/terms">
-            Terms of Use
-          </Link>{" "}
-          ·{" "} */}
-          <Link className="" href="/privacy-policy">
-            Privacy Policy
+          <Link className="" href="/terms-of-use">
+            Terms of Use &amp; Privacy Policy
           </Link>
         </section>
       </div>

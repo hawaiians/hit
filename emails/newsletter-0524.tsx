@@ -142,7 +142,7 @@ export default function Newsletter0524({
         </Link>
         <span className="mx-2">·</span>
         <Link
-          href="https://hawaiiansintech.org/privacy-policy?utm_source=confirmation-email-footer"
+          href="https://hawaiiansintech.org/terms-of-use?utm_source=confirmation-email-footer"
           className="text-xs text-inherit"
         >
           Privacy Policy
