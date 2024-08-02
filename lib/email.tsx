@@ -3,6 +3,7 @@ import WelcomeEmail from "@/emails/welcome-email";
 import { render } from "@react-email/components";
 import { ADMIN_EMAILS, REPLY_EMAIL } from "./email/utils";
 import PendingMemberEmail from "@/emails/pending-member-email";
+import LoginPromptEmail from "@/emails/login-prompt";
 SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 export interface SendConfirmationEmailProps {
@@ -38,7 +39,12 @@ export async function sendConfirmationEmails({
       to: email,
       subject: "Welcome to Hawaiians in Tech",
       html: render(
-        <WelcomeEmail email={email} name={name} recordID={recordID} />,
+        <WelcomeEmail
+          email={email}
+          name={name}
+          recordID={recordID}
+          location={location}
+        />,
       ),
     });
 
@@ -62,6 +68,34 @@ export async function sendConfirmationEmails({
     });
   } catch (error) {
     console.error(`Error sending confirmation email to ${email}`, error);
+    throw error;
+  }
+}
+
+export async function sendLoginPromptEmail({
+  emailAddress,
+  promptLink,
+}: {
+  emailAddress: string;
+  promptLink: string;
+}) {
+  try {
+    await SendGrid.send({
+      from: {
+        email: REPLY_EMAIL,
+        name: "Hawaiians in Tech",
+      },
+      to: emailAddress,
+      subject: "Login to Hawaiians in Tech",
+      html: render(
+        <LoginPromptEmail
+          emailAddress={emailAddress}
+          promptLink={promptLink}
+        />,
+      ),
+    });
+  } catch (error) {
+    console.error(`Error sending login prompt email to ${emailAddress}`, error);
     throw error;
   }
 }

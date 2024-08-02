@@ -9,9 +9,7 @@ import Link from "next/link";
 import { DISCORD_URL, GITHUB_URL } from "../about";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Filter, getFilters } from "@/lib/api";
 import { FirebaseTablesEnum, StatusEnum } from "@/lib/enums";
-import { getMembers } from "../api/get-members";
 import {
   Accordion,
   AccordionContent,
@@ -22,6 +20,9 @@ import { cn } from "@/lib/utils";
 import theme from "@/styles/theme";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { buttonVariants } from "@/components/ui/button";
+import { Filter } from "@/lib/firebase-helpers/interfaces";
+import { getFilters } from "@/lib/firebase-helpers/filters";
+import { getMembers } from "@/lib/firebase-helpers/members";
 
 export async function getStaticProps() {
   const { members, focuses, industries } = await getMembers();
@@ -153,11 +154,11 @@ export default function ThankYou({ pageTitle, focuses, industries, members }) {
                                     (member) =>
                                       (items[0].filterType === "focuses" &&
                                         member.focus
-                                          ?.map((foc) => foc.id)
+                                          ?.map((foc) => foc?.id)
                                           .includes(item.id)) ||
                                       (items[0].filterType === "industries" &&
                                         member.industry
-                                          ?.map((foc) => foc.id)
+                                          ?.map((ind) => ind?.id)
                                           .includes(item.id)),
                                   )
                                   .map((member) => (

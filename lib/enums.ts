@@ -35,7 +35,6 @@ export enum FirebaseTablesEnum {
   INDUSTRIES = "industries",
   MEMBERS = "members",
   REGIONS = "regions",
-  REVIEW = "review",
   SECURE_MEMBER_DATA = "secureMemberData",
 }
 

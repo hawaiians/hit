@@ -1,6 +1,6 @@
 import SendGrid from "@sendgrid/mail";
 import { render } from "@react-email/components";
-import Newsletter0524 from "./newsletter-0524";
+import Newsletter0524 from "../../emails/newsletter-0524";
 import { REPLY_EMAIL } from "@/lib/email/utils";
 SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 

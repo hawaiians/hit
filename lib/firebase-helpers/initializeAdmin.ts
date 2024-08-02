@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import serverSideOnly from "./general";
 
 export const initializeAdmin = async () => {
   const isBrowser: boolean = ((): boolean => typeof window !== "undefined")();
@@ -32,3 +33,7 @@ export const initializeAdmin = async () => {
     }
   }
 };
+
+export default serverSideOnly({
+  initializeAdmin,
+});

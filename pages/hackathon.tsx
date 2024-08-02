@@ -49,7 +49,7 @@ export default function HackathonPage({ pageTitle }) {
         />
         <title>{pageTitle}</title>
       </Head>
-      <Nav backUrl="/" />
+      <Nav backLinkTo="/" variant="minimized" />
       <div className="background pointer-events-none">
         <NihoShimmer animate />
       </div>
