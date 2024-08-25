@@ -33,6 +33,12 @@ export default function Nav({
   const router = useRouter();
   const { nav } = router.query;
 
+  useEffect(() => {
+    // Clear query param after page load
+    if (typeof window !== "undefined" && nav) {
+      window?.history?.replaceState(null, "", location.href.split("?")[0]);
+    }
+  }, []);
 
   const renderLogo = () => {
     let logo = <Logo />;
