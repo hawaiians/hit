@@ -38,53 +38,6 @@ const styles = css.global`
   }
 
   @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
-
-  /* Type 
- ----------------------------- */
-
-  h1,
-  .f1 {
-    font-size: 5.625rem;
-    letter-spacing: -0.03em;
-    line-height: 100%;
-    font-weight: 500;
-    font-feature-settings:
-      "ss08" on,
-      "ss01" on,
-      "salt" on,
-      "cpsp" on;
-  }
-  h2 {
-    font-size: 3.2rem;
-    letter-spacing: -0.03em;
-    line-height: 100%;
-    font-weight: 500;
-    font-feature-settings:
-      "ss08" on,
-      "ss01" on,
-      "salt" on,
-      "cpsp" on;
-  }
-
-  /* Responsive
- ----------------------------- */
-  @media (max-width: ${theme.layout.breakPoints.small}) {
-    :root {
-      font-size: 12px;
-    }
-
-    h1,
-    .f1 {
-      font-size: 4rem;
-      letter-spacing: -0.02em;
-    }
-  }
-
-  @media (min-width: 1600px) {
-    :root {
-      font-size: 18px;
-    }
-  }
 `;
 
 export default styles;

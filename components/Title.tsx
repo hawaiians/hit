@@ -29,7 +29,7 @@ interface TitleProps {
 export function Title({ noAnimation, text }: TitleProps) {
   return (
     <motion.h1
-      className="m-0 p-0"
+      className="m-0 p-0 text-4xl font-medium tracking-tighter md:text-6xl xl:text-8xl"
       variants={container}
       initial={noAnimation ? "show" : "hidden"}
       animate="show"

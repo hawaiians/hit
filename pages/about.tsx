@@ -57,7 +57,7 @@ export default function AboutPage({ pageTitle }) {
           animate="show"
           exit="hidden"
         >
-          <p className="f1">
+          <p className="text-4xl font-medium tracking-tighter md:text-6xl xl:text-8xl">
             <motion.span
               className="inline text-stone-800 md:inline-block"
               variants={item}

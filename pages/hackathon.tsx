@@ -53,7 +53,7 @@ export default function HackathonPage({ pageTitle }) {
       <div className="background pointer-events-none">
         <NihoShimmer animate />
       </div>
-      <div className="hackathon-splash foreground">
+      <div className="z-50 px-4 pt-[26vh] lg:px-8">
         <Title text="Hawaiians*in&nbsp;Technology" noAnimation />
         <motion.div
           variants={container}
@@ -61,10 +61,10 @@ export default function HackathonPage({ pageTitle }) {
           animate="show"
           exit="hidden"
         >
-          <h1 className="f1 extend">
+          <h1 className="text-4xl font-medium tracking-tighter md:text-6xl xl:text-8xl">
             <motion.span variants={item}>& Purple Maiʻa</motion.span>
           </h1>
-          <p className="hackathon-title font-script">
+          <p className="mt-2 font-script text-2xl text-primary md:text-4xl lg:mt-4 xl:text-6xl">
             <motion.span variants={item}>HACKATHON 2022</motion.span>
           </p>
         </motion.div>
@@ -123,7 +123,7 @@ export default function HackathonPage({ pageTitle }) {
           </a>
         </main>
       </div>
-      <div className="foreground">
+      <div className="z-50">
         <DataList
           marginSmall="3rem auto 0"
           marginLarge="3rem 0 0 0"
@@ -480,11 +480,6 @@ export default function HackathonPage({ pageTitle }) {
           max-width: 100%;
         }
 
-        .hackathon-splash {
-          margin: 0 1rem;
-          padding-top: 26vh;
-        }
-
         .hackathon-images {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
@@ -539,11 +534,6 @@ export default function HackathonPage({ pageTitle }) {
           background: var(--color-brand);
         }
 
-        .foreground {
-          position: relative;
-          z-index: ${theme.layout.zIndex.center};
-        }
-
         .background {
           position: absolute;
           top: 4rem;
@@ -573,17 +563,6 @@ export default function HackathonPage({ pageTitle }) {
           border-radius: 1rem;
         }
 
-        .extend {
-          margin: 0;
-          max-width: 24ch;
-        }
-
-        .hackathon-title {
-          font-size: 2.4rem;
-          margin: 0.5rem 0 0 0;
-          color: ${theme.color.brand.base};
-        }
-
         .eventLogisticsParagraph {
           margin: 0;
           color: ${theme.color.brand.base};
@@ -598,21 +577,12 @@ export default function HackathonPage({ pageTitle }) {
           .background {
             padding: 0 2rem;
           }
-          .hackathon-splash {
-            margin: 0 2rem;
-          }
-          .hackathon-title {
-            font-size: 4rem;
-          }
         }
 
         @media screen and (min-width: ${theme.layout.breakPoints.medium}) {
           .background {
             opacity: 1;
             top: 14rem;
-          }
-          .hackathon-title {
-            font-size: 4rem;
           }
         }
       `}</style>
