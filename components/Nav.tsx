@@ -13,6 +13,9 @@ export enum NavAppearance {
   ToFade = "to-fade",
 }
 
+export const generateNavUrl = (path, navAppearance: NavAppearance) =>
+  `${path}?nav=${navAppearance}`;
+
 const navLogoVariants = {
   floatLeft: { x: -40 },
   default: { x: 0 },
@@ -79,12 +82,12 @@ export default function Nav({
       <>
         <Link
           className="text-base font-medium text-stone-700"
-          href={`/about?nav=${NavAppearance.ToMin}`}
+          href={generateNavUrl(`/about`, NavAppearance.ToMin)}
         >
           About
         </Link>
         <Link
-          href={`/hackathon?nav=${NavAppearance.ToMin}`}
+          href={generateNavUrl(`/hackathon`, NavAppearance.ToMin)}
           className="font-script text-2xl"
         >
           Hackathon
@@ -100,13 +103,13 @@ export default function Nav({
       <div className="flex items-center gap-6">
         <Link
           className="text-base font-medium text-stone-700"
-          href={`/edit?nav=${NavAppearance.ToMin}`}
+          href={generateNavUrl(`/edit`, NavAppearance.ToMin)}
         >
           Update Profile
         </Link>
         <Link
           className={cn(buttonVariants({ size: "sm" }), "px-4")}
-          href={`/join/01-you?nav=${NavAppearance.ToMin}`}
+          href={generateNavUrl(`/join/01-you`, NavAppearance.ToMin)}
         >
           Join Us
         </Link>

@@ -1,5 +1,5 @@
 import MetaTags from "@/components/Metatags";
-import Nav from "@/components/Nav";
+import Nav, { generateNavUrl, NavAppearance } from "@/components/Nav";
 import Plausible from "@/components/Plausible";
 import { Title } from "@/components/Title.js";
 import { motion } from "framer-motion";
@@ -267,7 +267,10 @@ export default function AboutPage({ pageTitle }) {
           </p>
         </section>
         <section className="flex gap-4 text-lg font-semibold">
-          <Link className="" href="/terms-of-use">
+          <Link
+            className=""
+            href={generateNavUrl(`/terms-of-use`, NavAppearance.ToMin)}
+          >
             Terms of Use &amp; Privacy Policy
           </Link>
         </section>
