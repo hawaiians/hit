@@ -81,14 +81,14 @@ export default function Nav({
     return (
       <>
         <Link
-          className="text-base font-medium text-stone-700"
           href={generateNavUrl(`/about`, NavAppearance.ToMin)}
+          className="text-base font-medium text-stone-700 hover:no-underline"
         >
           About
         </Link>
         <Link
           href={generateNavUrl(`/hackathon`, NavAppearance.ToMin)}
-          className="font-script text-2xl"
+          className="font-script text-2xl hover:no-underline"
         >
           Hackathon
         </Link>
@@ -102,13 +102,16 @@ export default function Nav({
     return (
       <div className="flex items-center gap-6">
         <Link
-          className="text-base font-medium text-stone-700"
+          className="text-base font-medium text-stone-700 hover:no-underline"
           href={generateNavUrl(`/edit`, NavAppearance.ToMin)}
         >
           Update Profile
         </Link>
         <Link
-          className={cn(buttonVariants({ size: "sm" }), "px-4")}
+          className={cn(
+            buttonVariants({ size: "sm" }),
+            "px-4 hover:no-underline",
+          )}
           href={generateNavUrl(`/join/01-you`, NavAppearance.ToMin)}
         >
           Join Us

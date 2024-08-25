@@ -57,8 +57,11 @@ export default function AboutPage({ pageTitle }) {
           animate="show"
           exit="hidden"
         >
-          <p className="f1 extend">
-            <motion.span className="text-stone-800" variants={item}>
+          <p className="f1">
+            <motion.span
+              className="inline text-stone-800 md:inline-block"
+              variants={item}
+            >
               is a directory and community of{" "}
               <strong className="font-semibold text-stone-900">
                 Native Hawaiians
