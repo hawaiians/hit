@@ -1,7 +1,7 @@
 import MetaTags from "@/components/Metatags";
 import Nav, { generateNavUrl, NavAppearance } from "@/components/Nav";
 import Plausible from "@/components/Plausible";
-import { Title } from "@/components/Title.js";
+import { Title } from "@/components/Title";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";

@@ -8,7 +8,7 @@ import Nav from "@/components/Nav";
 import NihoShimmer from "@/components/NihoShimmer";
 import Plausible from "@/components/Plausible";
 import SplitSection from "@/components/SplitSection";
-import { Title } from "@/components/Title.js";
+import { Title } from "@/components/Title";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import theme from "styles/theme";
@@ -54,11 +54,7 @@ export default function HackathonPage({ pageTitle }) {
         <NihoShimmer animate />
       </div>
       <div className="hackathon-splash foreground">
-        <Title
-          className="m0 p0"
-          text="Hawaiians*in&nbsp;Technology"
-          noAnimation
-        />
+        <Title text="Hawaiians*in&nbsp;Technology" noAnimation />
         <motion.div
           variants={container}
           initial="hidden"
