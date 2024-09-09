@@ -435,7 +435,7 @@ function Card({ member, regions, user }: CardProps) {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-h-[calc(100vh-4rem)] overflow-y-scroll">
           <DialogHeader>
             <DialogTitle>{member.name}</DialogTitle>
             <DialogDescription>{member.title}</DialogDescription>

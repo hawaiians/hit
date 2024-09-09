@@ -1,7 +1,7 @@
 import MetaTags from "@/components/Metatags";
-import Nav from "@/components/Nav";
+import Nav, { generateNavUrl, NavAppearance } from "@/components/Nav";
 import Plausible from "@/components/Plausible";
-import { Title } from "@/components/Title.js";
+import { Title } from "@/components/Title";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";
@@ -57,8 +57,11 @@ export default function AboutPage({ pageTitle }) {
           animate="show"
           exit="hidden"
         >
-          <p className="f1 extend">
-            <motion.span className="text-stone-800" variants={item}>
+          <p className="text-4xl font-medium tracking-tighter md:text-6xl xl:text-8xl">
+            <motion.span
+              className="inline text-stone-800 md:inline-block"
+              variants={item}
+            >
               is a directory and community of{" "}
               <strong className="font-semibold text-stone-900">
                 Native Hawaiians
@@ -267,7 +270,10 @@ export default function AboutPage({ pageTitle }) {
           </p>
         </section>
         <section className="flex gap-4 text-lg font-semibold">
-          <Link className="" href="/terms-of-use">
+          <Link
+            className=""
+            href={generateNavUrl(`/terms-of-use`, NavAppearance.ToMin)}
+          >
             Terms of Use &amp; Privacy Policy
           </Link>
         </section>

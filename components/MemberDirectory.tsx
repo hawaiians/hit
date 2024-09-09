@@ -61,6 +61,7 @@ export default function MemberDirectory({ members }: MemberDirectoryProps) {
               transition-all
               hover:border-tan-400
               hover:bg-tan-300
+              hover:no-underline
               sm:px-4
               sm:py-2
             `,
@@ -78,7 +79,9 @@ export default function MemberDirectory({ members }: MemberDirectoryProps) {
               className={cn(
                 `
                 text-2xl
-              text-stone-800
+                font-medium
+                tracking-tight
+                text-stone-800
               `,
                 isSelected && "text-stone-900",
               )}

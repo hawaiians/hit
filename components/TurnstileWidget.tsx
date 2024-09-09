@@ -10,6 +10,7 @@ interface TurnstileWidgetProps {
 const TurnstileWidget = ({ onVerify }: TurnstileWidgetProps) => {
   return (
     <Turnstile
+      theme="light"
       sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITEKEY}
       onVerify={(token) => {
         onVerify(token);

@@ -5,12 +5,22 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export enum NavAppearance {
   ToShow = "to-show",
   ToMin = "to-min",
   ToFade = "to-fade",
 }
+
+export const generateNavUrl = (path, navAppearance: NavAppearance) =>
+  `${path}?nav=${navAppearance}`;
+
+const navLogoVariants = {
+  floatLeft: { x: -40 },
+  default: { x: 0 },
+  fadeDefault: { x: 0, opacity: 0 },
+};
 
 interface NavProps {
   backLinkTo?: string;
@@ -26,16 +36,18 @@ export default function Nav({
   const router = useRouter();
   const { nav } = router.query;
 
-  const navLogoVariants = {
-    floatLeft: { x: -40 },
-    default: { x: 0 },
-    fadeDefault: { x: 0, opacity: 0 },
-  };
+  useEffect(() => {
+    // Clear query param after page load
+    if (typeof window !== "undefined" && nav) {
+      window?.history?.replaceState(null, "", location.href.split("?")[0]);
+    }
+  }, []);
 
-  let logo = <Logo />;
+  const renderLogo = () => {
+    let logo = <Logo />;
+    if (!backLinkTo) return logo;
 
-  if (backLinkTo) {
-    logo = (
+    return (
       <>
         <Link href={backLinkTo} shallow={true}>
           <div className="transition-transform hover:scale-105 active:scale-95">
@@ -61,7 +73,53 @@ export default function Nav({
         </motion.a>
       </>
     );
-  }
+  };
+
+  const renderNavItems = () => {
+    if (variant !== "primary") return null;
+
+    return (
+      <>
+        <Link
+          href={generateNavUrl(`/about`, NavAppearance.ToMin)}
+          className="text-base font-medium text-stone-700 hover:no-underline"
+        >
+          About
+        </Link>
+        <Link
+          href={generateNavUrl(`/hackathon`, NavAppearance.ToMin)}
+          className="font-script text-2xl hover:no-underline"
+        >
+          Hackathon
+        </Link>
+      </>
+    );
+  };
+
+  const renderActionItems = () => {
+    if (variant !== "primary") return null;
+
+    return (
+      <div className="flex items-center gap-6">
+        <Link
+          className="text-base font-medium text-stone-700 hover:no-underline"
+          href={generateNavUrl(`/edit`, NavAppearance.ToMin)}
+        >
+          Update Profile
+        </Link>
+        <Link
+          className={cn(
+            buttonVariants({ size: "sm" }),
+            "px-4 hover:no-underline",
+          )}
+          href={generateNavUrl(`/join/01-you`, NavAppearance.ToMin)}
+        >
+          Join Us
+        </Link>
+      </div>
+    );
+  };
+
   return (
     <header className="flex w-full items-center justify-between gap-8 p-4 sm:pl-8">
       <nav
@@ -70,45 +128,13 @@ export default function Nav({
           variant === "primary" && "gap-8",
         )}
       >
-        {logo}
-        {variant === "primary" && (
-          <>
-            <Link
-              className="text-base font-medium text-stone-700"
-              href={`/about?nav=${NavAppearance.ToMin}`}
-            >
-              About
-            </Link>
-            <Link
-              href={`/hackathon?nav=${NavAppearance.ToMin}`}
-              className="font-script text-2xl"
-            >
-              Hackathon
-            </Link>
-          </>
-        )}
+        {renderLogo()}
+        {renderNavItems()}
       </nav>
-      {children ? (
+      {children && (
         <div className="flex grow items-center gap-4">{children}</div>
-      ) : null}
-      {variant === "primary" && (
-        <>
-          <div className="flex items-center gap-6">
-            <Link
-              className="text-base font-medium text-stone-700"
-              href={`/edit?nav=${NavAppearance.ToMin}`}
-            >
-              Update Profile
-            </Link>
-            <Link
-              className={cn(buttonVariants({ size: "sm" }), "px-4")}
-              href={`/join/01-you?nav=${NavAppearance.ToMin}`}
-            >
-              Join Us
-            </Link>
-          </div>
-        </>
       )}
+      {renderActionItems()}
     </header>
   );
 }

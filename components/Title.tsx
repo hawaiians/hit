@@ -12,19 +12,24 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: "5%" },
-  show: { opacity: 1, y: "0%" },
-  transition: {
-    easing: "easeInOut",
+  show: {
+    opacity: 1,
+    y: "0%",
+    transition: {
+      easing: "easeInOut",
+    },
   },
 };
 
-export function Title(props) {
-  const { text, noAnimation } = props;
+interface TitleProps {
+  noAnimation?: boolean;
+  text: string;
+}
 
+export function Title({ noAnimation, text }: TitleProps) {
   return (
     <motion.h1
-      {...props}
-      className="m-0 p-0"
+      className="m-0 p-0 text-4xl font-medium tracking-tighter md:text-6xl xl:text-8xl"
       variants={container}
       initial={noAnimation ? "show" : "hidden"}
       animate="show"
@@ -32,7 +37,11 @@ export function Title(props) {
       {text.split("").map((l, i) => {
         if (l == "*") return <br key={`${l}-${i}`} />;
         return (
-          <motion.span className="letter" variants={item} key={`${l}-${i}`}>
+          <motion.span
+            className="inline-block"
+            variants={item}
+            key={`${l}-${i}`}
+          >
             {l}
           </motion.span>
         );
@@ -41,13 +50,10 @@ export function Title(props) {
   );
 }
 
-export function Subtitle(props) {
-  const { text, noAnimation } = props;
-
+export function Subtitle({ noAnimation, text }: TitleProps) {
   return (
     <motion.h2
-      {...props}
-      className="m0 p0"
+      className="m-0 p-0"
       variants={container}
       initial={noAnimation ? "show" : "hidden"}
       animate="show"
@@ -55,7 +61,11 @@ export function Subtitle(props) {
       {text.split("").map((l, i) => {
         if (l == "*") return <br key={`${l}-${i}`} />;
         return (
-          <motion.span className="letter" variants={item} key={`${l}-${i}`}>
+          <motion.span
+            className="inline-block"
+            variants={item}
+            key={`${l}-${i}`}
+          >
             {l}
           </motion.span>
         );
