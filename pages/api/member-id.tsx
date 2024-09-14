@@ -8,7 +8,9 @@ async function getMemberId({ token }: { token?: string }): Promise<string> {
   const memberEmail = await verifyEmailAuthToken(token);
   const getApprovedEmails = true;
   const emails = await getEmails(getApprovedEmails);
-  const matchingMember = emails.find((email) => email.email === memberEmail);
+  const matchingMember = emails.find(
+    (email) => email.email.toLowerCase() === memberEmail.toLowerCase(),
+  );
   if (!matchingMember) {
     throw new ItemNotFoundError(`Member with email ${memberEmail} not found`);
   }

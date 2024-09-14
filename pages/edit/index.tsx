@@ -180,7 +180,7 @@ function EditForm({ baseUrl }) {
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
         const { user } = result;
-        if (user.email !== email) {
+        if (user.email.toLowerCase() !== email.toLowerCase()) {
           throw Error("Something was wrong with the information you provided.");
         } else {
           window.localStorage.removeItem("emailForSignIn");

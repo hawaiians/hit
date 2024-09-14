@@ -26,7 +26,11 @@ async function verifyAdminOrEmailAuthToken(
 ): Promise<MemberEmail> {
   const isAdmin = await verifyAdminToken(token, false);
   const email = await getEmailById(id);
-  if (isAdmin || email.email === (await verifyEmailAuthToken(token))) {
+  if (
+    isAdmin ||
+    email.email.toLowerCase() ===
+      (await verifyEmailAuthToken(token)).toLowerCase()
+  ) {
     return email;
   }
   throw new TokenVerificationError("Not authorized to access this account");

@@ -25,6 +25,7 @@ export const initializeAdmin = async () => {
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
       });
+      admin.firestore().settings({ ignoreUndefinedProperties: true });
     } catch (error) {
       throw new Error(
         "Failed to initialize Firebase Admin SDK with the " +
