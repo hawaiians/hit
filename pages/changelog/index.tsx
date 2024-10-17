@@ -40,7 +40,8 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({ entries }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch("http://localhost:3000/changelog.json");
+  // TODO: Fetch the changelog from the API
+  const res = await fetch(`${server}/changelog.json`);
   const entries = await res.json();
 
   return {
