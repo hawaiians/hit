@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { GetStaticProps } from "next";
 import ReactMarkdown from "react-markdown";
 import MetaTags from "@/components/Metatags";
@@ -14,6 +15,7 @@ interface ChangelogEntry {
   slug: string;
   content: string; // Markdown content
   githubPR?: string;
+  imageURL?: string;
 }
 
 interface ChangelogIndexProps {
@@ -47,6 +49,15 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
                 </p>
               </div>
               <div>
+                {entry.imageURL && (
+                  <Image
+                    src={`${entry.imageURL}`}
+                    alt=""
+                    height={960}
+                    width={540}
+                    className="mb-4 w-full rounded-lg border"
+                  />
+                )}
                 <Link
                   className="text-2xl font-semibold text-foreground"
                   href={`/changelog/${entry.slug}`}

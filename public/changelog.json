@@ -4,6 +4,7 @@
     "title": "Member Profile Editing and API Improvements",
     "slug": "member-profile-editing-and-api-improvements",
     "content": "Introducing Member Profile Editing, empowering members to manage their directory listings.\n\nKey features and updates:\n* Significant API improvements\n* Email verification using Firebase and Sendgrid\n* Captcha using Cloudflare",
+    "imageURL": "/images/changelog/changelog-member-profile-editing-and-api-improvements.jpg",
     "githubPR": "https://github.com/hawaiians/hawaiiansintech/pull/27"
   }
 ]
