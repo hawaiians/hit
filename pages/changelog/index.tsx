@@ -8,6 +8,7 @@ import MetaTags from "@/components/Metatags";
 import Plausible from "@/components/Plausible";
 import { server } from "@/config";
 import { GitPullRequestArrow } from "lucide-react";
+import Nav from "@/components/Nav";
 
 interface ChangelogEntry {
   date: string;
@@ -34,7 +35,8 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
         <MetaTags title={pageTitle} />
         <title>{pageTitle}</title>
       </Head>
-      <div className="container mx-auto max-w-7xl px-4 py-8">
+      <Nav backLinkTo="/" variant="minimized" />
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         <h1 className="mb-8 text-4xl font-bold">Changelog</h1>
         <ul className="grid gap-6">
           {entries.map((entry) => (
@@ -89,7 +91,6 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  // TODO: Fetch the changelog from the API
   const res = await fetch(`${server}/changelog.json`);
   const entries = await res.json();
 
