@@ -1,0 +1,14 @@
+[
+  {
+    "date": "2024-09-26",
+    "title": "Community and Public profiles",
+    "slug": "community-and-public-profiles",
+    "content": "# Community and Public profiles\n\nIntroducing Mobbin Community — A new way to discover beautiful collections curated by fellow Mobbin members.\n\nAlongside our new Community page, we are also launching Public profiles*. Your profile will be publicly available at mobbin.com/@{username}, where you can showcase your collections.\n\n## Other improvements\n\n- Collections are now public by default.\n- You can now search for apps from other platforms in the search bar.\n- You can now see the number of comments a screen or flow has on the Saved page as well as on your Collection pages.\n- We've improved the empty state for search results to suggest other popular filters.\n\n## Fixes\n\n- Fixed an issue where the screen watermarks were not rendering correctly.\n- Fixed an issue where filters were not persisted when switching platforms.\n- Public profiles are completely optional, and your team collections will never appear on your profile."
+  },
+  {
+    "date": "2024-09-15",
+    "title": "Other improvements",
+    "slug": "other-improvements",
+    "content": "# Other improvements\n\n- Feature 1\n- Feature 2\n- Feature 3"
+  }
+]
