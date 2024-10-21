@@ -7,20 +7,16 @@ import ReactMarkdown from "react-markdown";
 import MetaTags from "@/components/Metatags";
 import Plausible from "@/components/Plausible";
 import { server } from "@/config";
-import {
-  ExternalLink,
-  GitPullRequestArrow,
-  Link2,
-  MoveUpRight,
-} from "lucide-react";
 import Nav from "@/components/Nav";
+import ChangelogLinks from "@/components/ChangelogLinks";
+import { formatDate } from "@/helpers";
 
 interface ChangelogEntry {
   date: string;
   title: string;
   slug: string;
   content: string; // Markdown content
-  href?: string;
+  href?: string[];
   imageURL?: string;
 }
 
@@ -47,12 +43,8 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
           {entries.map((entry) => (
             <li key={entry.slug} className="grid grid-cols-[0.25fr_1fr] gap-4">
               <div>
-                <p className="text-gray-500">
-                  {new Date(entry.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
+                <p className="sticky top-4 text-lg text-muted-foreground">
+                  {formatDate(entry.date)}
                 </p>
               </div>
               <div>
@@ -74,33 +66,7 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
                 <ReactMarkdown className="prose mt-2">
                   {entry.content}
                 </ReactMarkdown>
-                {entry.href && (
-                  <>
-                    {entry.href.startsWith("https://github.com") &&
-                    entry.href.includes("/pull/") ? (
-                      <Link
-                        href={entry.href}
-                        className="mt-1 inline-flex items-center gap-1 rounded-full border-2 border-brown-600/30 px-2 py-1 text-sm font-medium text-brown-700 hover:border-brown-600/50 hover:no-underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <GitPullRequestArrow className="h-5 w-5" />
-                        pull/
-                        {`${entry.href.split("/").pop()}`}
-                      </Link>
-                    ) : (
-                      <Link
-                        href={entry.href}
-                        className="mt-1 inline-flex items-center gap-1 rounded-full border-2 border-brown-600/30 px-2 py-1 text-sm font-medium text-brown-700 hover:border-brown-600/50 hover:no-underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Link2 className="h-5 w-5" />
-                        Link
-                      </Link>
-                    )}
-                  </>
-                )}
+                {entry.href && <ChangelogLinks links={entry.href} />}
               </div>
             </li>
           ))}

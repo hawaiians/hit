@@ -1,18 +1,71 @@
 [
   {
-    "date": "2024-07-27",
-    "title": "Member Profile Editing and API Improvements",
-    "slug": "member-profile-editing-and-api-improvements",
-    "content": "Introducing Member Profile Editing, empowering members to manage their directory listings.\n\nKey features and updates:\n* Significant API improvements\n* Email verification using Firebase and Sendgrid\n* Captcha using Cloudflare",
+    "date": "2024-07-29",
+    "title": "Added profile editing and API improvements",
+    "slug": "profile-editing-and-api-improvements",
+    "content": "Introducing [profile editing](/edit), empowering members to manage their data on our site.\n\nKey features and updates:\n* Significant API improvements\n* Email verification using Firebase and Sendgrid\n* Captcha using Cloudflare",
     "imageURL": "/images/changelog/changelog-member-profile-editing-and-api-improvements.jpg",
-    "href": "https://github.com/hawaiians/hawaiiansintech/pull/27"
+    "href": [
+      "https://github.com/hawaiians/hawaiiansintech/pull/27",
+      "https://github.com/hawaiians/hawaiiansintech/pull/31",
+      "https://github.com/hawaiians/hawaiiansintech/pull/32",
+      "https://github.com/hawaiians/hawaiiansintech/pull/33",
+      "https://github.com/hawaiians/hawaiiansintech/pull/35",
+      "https://github.com/hawaiians/hawaiiansintech/pull/36",
+      "https://github.com/hawaiians/hawaiiansintech/pull/37"
+    ]
   },
   {
     "date": "2024-05-29",
-    "title": "Pasifika in Tech, a celebration for AANHPI Heritage Month",
+    "title": "Co-hosted a celebration for AANHPI Heritage Month",
     "slug": "pasifika-in-tech-2024",
-    "content": "We're thrilled to announce the success of our first-ever Pasifika in Tech Bay Area Happy Hour, co-hosted with several industry partners! The event showcased the vibrant Polynesian, Melanesian, and Micronesian tech community, fostering connections and amplifying Pasifika voices in the industry.\n\nHighlights of the event:\n* 80+ indigenous Pacific Islander and ally attendees\n* Hosted at Twitch HQ in Downtown San Francisco\n* Culturally-driven cuisine, creativity, and networking\n* Representation from various tech companies including Amazon, Google, and Twitch",
+    "content": "Announcing the first-ever **Pasifika in Tech Bay Area Happy Hour**, co-hosted with several industry partners. The event showcased the vibrant Polynesian, Melanesian, and Micronesian tech community, fostering connections and amplifying Pasifika voices in the industry.\n\nHighlights of the event:\n* 80+ indigenous Pacific Islander and ally attendees\n* Hosted at Twitch HQ in Downtown San Francisco\n* Culturally-driven cuisine, creativity, and networking\n* Representation from tech companies including Amazon, Google, Apple, Netflix, and more",
     "imageURL": "/images/changelog/changelog-pasifika-in-tech-2024-v2.jpg",
-    "href": "https://mahinachoyphotography.pic-time.com/-pasifikaintech/gallery"
+    "href": [
+      "https://www.linkedin.com/posts/jenai-akina_aanhpimonth-aanhpi-bayarea-activity-7192291794066276353-ENUT",
+      "https://www.linkedin.com/posts/jenai-akina_aanhpimonth-hawaiian-chamoru-activity-7202121706532974592-pPft",
+      "https://www.linkedin.com/posts/taylorho_pasifikatech-pasifikaintech-pidiaspora-activity-7196158257768415232-Y_vA",
+      "https://www.linkedin.com/posts/taylorho_five-days-later-im-still-buzzing-from-last-activity-7203474822150934530-inTY",
+      "https://www.linkedin.com/posts/pacific-professionals-network_pasifikaintech-networking-culturalcelebration-activity-7204297742192451585-ZXo0",
+      "https://www.linkedin.com/posts/matthew-hattori_aanhpimonth-aanhpi-bayarea-activity-7192304572273512450-D-mP"
+    ]
+  },
+  {
+    "date": "2024-04-07",
+    "title": "Upgraded email templates with react-email",
+    "slug": "upgraded-email-templates-react-email",
+    "content": "We've enhanced our email communication system by migrating to the react-email library. This upgrade brings several improvements:\n\n* More maintainable and customizable email templates\n* Improved consistency across different email clients\n* Easier testing and preview of email designs\n* Better developer experience for creating and updating email content\n\nThis change allows us to deliver a more polished and professional email experience to our community members.",
+    "imageURL": "/images/changelog/changelog-react-email-upgrade.jpg",
+    "href": ["https://github.com/hawaiians/hawaiiansintech/pull/26"]
+  },
+  {
+    "date": "2024-03-26",
+    "title": "Launched Admin UI for Community Management",
+    "slug": "admin-ui-community-management",
+    "content": "We're excited to announce the launch of our new Admin UI, designed to empower our community managers and volunteers!\n\nKey features:\n* User-friendly interface for managing member information\n* Streamlined processes for approving new members and updating profiles\n* Enhanced data visualization for community insights\n* Role-based access control for secure management\n\nThis new tool opens up opportunities for passionate community members to contribute as volunteer managers. By distributing these efforts, we aim to foster a more engaged and collaborative community.\n\nInterested in supporting Hawaiians in Tech as a community manager? Reach out to us to learn more about how you can help shape our growing 'ohana!",
+    "imageURL": "/images/changelog/changelog-admin-ui-launch.jpg",
+    "href": [
+      "https://github.com/hawaiians/hawaiiansintech/pull/23",
+      "https://github.com/hawaiians/hawaiiansintech/pull/25"
+    ]
+  },
+  {
+    "date": "2023-09-21",
+    "title": "Co-hosted virtual event with ThriveHI",
+    "slug": "virtual-event-building-for-social-causes-thrivehi",
+    "content": "We collaborated with ThriveHI to host a virtual event connecting kama'āina and kanaka throughout tech.\n\n* Connected tech professionals in Hawaii and on the mainland\n* Discussed culture, identity, and community building\n* Explored strategies for keiki access to tech jobs\n* Fostered networking opportunities",
+    "imageURL": "/images/changelog/changelog-thrivehi-virtual-event-2023.jpg",
+    "href": ["https://www.meetup.com/thrivehi/events/295723950/"]
+  },
+  {
+    "date": "2022-07-18",
+    "title": "Co-organized Hackathon with Purple Maiʻa",
+    "slug": "hawaiians-in-tech-hackathon-2022",
+    "content": "The hackathon showcased the talent within our community and demonstrated how technology can be leveraged to address important cultural and social issues.\n\nHighlights of the event:\n* Projects focused on Hawaiian language preservation, cultural education, and community resources\n* 48-hour in-person & virtual hackathon\n* Mentorship from experienced Native Hawaiian and ally tech professionals",
+    "imageURL": "/images/changelog/changelog-hackathon-2022.jpg",
+    "href": [
+      "https://www.linkedin.com/posts/emmit-parubrub_working-as-a-native-hawaiian-in-the-technology-activity-6959932576031522816-gY6R",
+      "https://www.linkedin.com/posts/taylorho_at-the-end-of-the-day-what-we-do-all-day-activity-6948659449066635264-y0II"
+    ]
   }
 ]
