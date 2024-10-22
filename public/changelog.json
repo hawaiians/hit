@@ -34,7 +34,7 @@
     "date": "2024-04-07",
     "title": "Upgraded email templates with react-email",
     "slug": "upgraded-email-templates-react-email",
-    "content": "We've enhanced our email communication system by migrating to the react-email library. This upgrade brings several improvements:\n\n* More maintainable and customizable email templates\n* Improved consistency across different email clients\n* Easier testing and preview of email designs\n* Better developer experience for creating and updating email content\n\nThis change allows us to deliver a more polished and professional email experience to our community members.",
+    "content": "We updated our email communication to use [react-email](https://github.com/resend/react-email/). This brings several improvements:\n\n* More maintainable and customizable email templates\n* Improved consistency across different email clients\n* Easier testing and preview of email designs\n* Better developer experience for creating and updating email content\n\nThis change allows us to deliver a more polished and professional email experience to our community members.",
     "imageURL": "/images/changelog/changelog-react-email-upgrade.jpg",
     "href": ["https://github.com/hawaiians/hawaiiansintech/pull/26"]
   },
