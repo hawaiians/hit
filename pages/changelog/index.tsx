@@ -39,7 +39,7 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
       <Nav backLinkTo="/" variant="minimized" />
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <h1 className="mb-8 text-4xl font-bold">Changelog</h1>
-        <ul className="grid gap-6">
+        <ul className="grid gap-16">
           {entries.map((entry) => (
             <li key={entry.slug} className="grid grid-cols-[0.25fr_1fr] gap-4">
               <div>
@@ -57,12 +57,9 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
                     className="mb-4 w-full rounded-lg border"
                   />
                 )}
-                <Link
-                  className="text-2xl font-semibold text-foreground"
-                  href={`/changelog/${entry.slug}`}
-                >
+                <h3 className="text-2xl font-semibold text-foreground">
                   {entry.title}
-                </Link>
+                </h3>
                 <ReactMarkdown className="prose mt-2">
                   {entry.content}
                 </ReactMarkdown>
