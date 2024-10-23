@@ -65,13 +65,13 @@ const ChangelogLinks: React.FC<ChangelogLinksProps> = ({ links }) => {
 
   return (
     <>
-      <div className="grid gap-2 lg:grid-cols-2">
+      <div className="grid gap-2 md:grid-cols-2">
         {displayedLinks.map((link, index) => (
           <Link
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg border-2 bg-tan-300/50 p-2 text-sm font-medium text-foreground hover:no-underline"
+            className="rounded-lg border-2 bg-tan-300/50 p-2 text-sm font-medium text-foreground hover:bg-tan-300/70 hover:no-underline active:bg-tan-300"
           >
             <div className="flex items-center gap-2 overflow-hidden">
               <div className="rounded-full border p-2 text-secondary-foreground">
@@ -129,7 +129,7 @@ const ChangelogLinks: React.FC<ChangelogLinksProps> = ({ links }) => {
           <Button
             variant="outline"
             size="sm"
-            className="col-span-2"
+            className="md:col-span-2"
             onClick={() => setShowAll(true)}
           >
             Load More
