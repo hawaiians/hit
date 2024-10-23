@@ -20,7 +20,9 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
   await verifyTurnstileToken(turnstileToken, ip);
   const getApprovedEmails = true;
   const emails = await getEmails(getApprovedEmails);
-  const matchingMember = emails.find((email) => email.email === req.body.email);
+  const matchingMember = emails.find(
+    (email) => email.email.toLowerCase() === req.body.email.toLowerCase(),
+  );
   if (!matchingMember) {
     throw new ItemNotFoundError(
       `Member with email ${req.body.email} not found`,
