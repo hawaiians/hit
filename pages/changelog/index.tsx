@@ -44,12 +44,10 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
         <ul className="grid gap-16">
           {entries.map((entry) => (
             <li key={entry.slug} className="grid grid-cols-[0.25fr_1fr] gap-4">
-              <div>
-                <p className="sticky top-4 text-lg text-muted-foreground">
-                  {formatDate(entry.date)}
-                </p>
-              </div>
-              <div>
+              <p className="sticky top-4 text-lg text-muted-foreground">
+                {formatDate(entry.date)}
+              </p>
+              <div className="space-y-4">
                 {entry.imageURL && (
                   <Image
                     src={`${entry.imageURL}`}
@@ -59,12 +57,14 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
                     className="mb-4 w-full rounded-lg border"
                   />
                 )}
-                <h3 className="text-2xl font-semibold text-foreground">
-                  {entry.title}
-                </h3>
-                <ReactMarkdown className="prose mt-2">
-                  {entry.content}
-                </ReactMarkdown>
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-semibold text-foreground">
+                    {entry.title}
+                  </h2>
+                  <ReactMarkdown className="prose">
+                    {entry.content}
+                  </ReactMarkdown>
+                </div>
                 {entry.href && <ChangelogLinks links={entry.href} />}
               </div>
             </li>
