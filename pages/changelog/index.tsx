@@ -10,6 +10,8 @@ import { server } from "@/config";
 import Nav from "@/components/Nav";
 import ChangelogLinks from "@/components/ChangelogLinks";
 import { formatDate } from "@/helpers";
+import fs from "fs";
+import path from "path";
 
 interface ChangelogEntry {
   date: string;
@@ -74,8 +76,9 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${server}/changelog.json`);
-  const entries = await res.json();
+  const filePath = path.join(process.cwd(), "public/changelog.json");
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const entries = JSON.parse(fileContents);
 
   return {
     props: {
