@@ -41,12 +41,17 @@ const ChangelogIndex: React.FC<ChangelogIndexProps> = ({
       <Nav backLinkTo="/" variant="minimized" />
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <h1 className="mb-8 text-4xl font-bold">Changelog</h1>
-        <ul className="grid gap-16">
+        <ul className="flex flex-col gap-16">
           {entries.map((entry) => (
-            <li key={entry.slug} className="grid grid-cols-[0.25fr_1fr] gap-4">
-              <p className="sticky top-4 text-lg text-muted-foreground">
-                {formatDate(entry.date)}
-              </p>
+            <li
+              key={entry.slug}
+              className="grid gap-2 lg:grid-cols-[0.25fr_1fr]"
+            >
+              <div>
+                <p className="sticky top-4 text-lg text-muted-foreground">
+                  {formatDate(entry.date)}
+                </p>
+              </div>
               <div className="space-y-4">
                 {entry.imageURL && (
                   <Image
