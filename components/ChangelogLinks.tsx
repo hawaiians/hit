@@ -89,11 +89,16 @@ const ChangelogLinks: React.FC<ChangelogLinksProps> = ({ links }) => {
               <div>
                 {link.includes("github.com") && (
                   <>
-                    <h3>Pull Request #{link.split("/").pop()}</h3>
+                    {link.includes("/pull/") && (
+                      <h3>Pull Request #{link.split("/").pop()}</h3>
+                    )}
                     <span className="flex items-center gap-1 text-xs text-secondary-foreground">
-                      <GitHubLogoIcon className="size-3" />
-                      {link.includes("/pull/") &&
-                        `${link.split("/")[3]}/${link.split("/")[4]}`}
+                      {link.includes("/pull/") && (
+                        <>
+                          <GitHubLogoIcon className="size-3" />
+                          {link.split("/")[3]}/{link.split("/")[4]}
+                        </>
+                      )}
                     </span>
                   </>
                 )}

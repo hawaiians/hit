@@ -74,6 +74,9 @@
   .prose h2 {
     @apply mb-3 text-2xl font-semibold;
   }
+  .prose h3 {
+    @apply mb-1 text-lg font-semibold;
+  }
   .prose p {
     @apply mb-2;
   }
