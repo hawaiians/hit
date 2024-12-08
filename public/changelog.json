@@ -77,5 +77,21 @@
       "https://github.com/hawaiiansintech/hawaiiansintech/pull/19",
       "https://github.com/hawaiiansintech/hawaiiansintech/pull/20"
     ]
+  },
+  {
+    "date": "2021-08-30",
+    "title": "Featured in Pacific Business News",
+    "slug": "featured-in-pacific-business-news",
+    "content": "Pacific Business News featured our initiative to connect Native Hawaiians in tech.\n\n### Highlights from the article\n* The need for representation and community in the tech industry\n* The importance of connecting Hawaiian tech professionals who might otherwise not know about each other\n* The diversity of roles represented, from software engineers to CEOs",
+    "imageURL": "/images/changelog/changelog-pacific-business-news.jpg",
+    "href": [
+      "https://www.bizjournals.com/pacific/news/2021/08/30/website-hawaiians-in-technology.html"
+    ]
+  },
+  {
+    "date": "2021-05-28",
+    "title": "Launched the website",
+    "slug": "launched-the-website",
+    "content": "The Hawaiians in Tech website was launched to provide a platform for Native Hawaiians in the tech industry to be represented."
   }
 ]
