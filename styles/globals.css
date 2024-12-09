@@ -66,3 +66,32 @@
     @apply underline decoration-primary/50;
   }
 }
+
+@layer components {
+  .prose h1 {
+    @apply mb-4 text-3xl font-bold;
+  }
+  .prose h2 {
+    @apply mb-3 text-2xl font-semibold;
+  }
+  .prose h3 {
+    @apply mb-1 text-lg font-semibold;
+  }
+  .prose p {
+    @apply mb-2;
+  }
+  .prose ul,
+  .prose ol {
+    @apply mb-2 grid list-inside gap-1;
+  }
+  .prose ul {
+    @apply list-disc;
+  }
+  .prose ol {
+    @apply list-decimal;
+  }
+  .prose p + ul,
+  .prose p + ol {
+    @apply -mt-1;
+  }
+}

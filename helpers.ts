@@ -88,3 +88,11 @@ export function useEmailCloaker(initialValue: string): string {
 export function convertStringSnake(str) {
   return str.replace(/_/g, " ").toUpperCase();
 }
+
+export function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
